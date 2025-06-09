@@ -10,12 +10,12 @@ namespace ADAShop.Shared.Entities
         [Required]
         public float Quantity { get; set; }
 
-        //[ForeignKey("Product")]
+        [ForeignKey("Product")]
         public int ProductId { get; set; }
 
         public Product? Product { get; set; }
 
-        //[ForeignKey("Cart")]
+        [ForeignKey("Cart")]
         public int? CartId { get; set; }
 
         public Cart? Cart { get; set; }

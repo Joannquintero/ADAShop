@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADAShop.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250609200426_InitiallDB")]
+    [Migration("20250609230519_InitiallDB")]
     partial class InitiallDB
     {
         /// <inheritdoc />
@@ -33,7 +33,12 @@ namespace ADAShop.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -181,7 +186,6 @@ namespace ADAShop.Api.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Identification")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -376,6 +380,15 @@ namespace ADAShop.Api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ADAShop.Shared.Entities.Cart", b =>
+                {
+                    b.HasOne("ADAShop.Shared.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ADAShop.Shared.Entities.CartItem", b =>

@@ -1,82 +1,58 @@
-﻿using ADAShop.Shared.Entities;
+﻿using ADAShop.Api.Helpers;
+using ADAShop.Shared.Emuns;
+using ADAShop.Shared.Entities;
 
 namespace ADAShop.Api.Data
 {
     public class SeedDb
     {
         private readonly Context _context;
+        private readonly IUserHelper _userHelper;
 
-        public SeedDb(Context context)
+        public SeedDb(Context context, IUserHelper userHelper)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
             await CheckRolesAsync();
-            //await CheckUserAdminAsync();
             await CheckCategoriesAsync();
             await CheckProductsAsync();
+            await CheckUserAsync("ADMIN", "ADA", "ada", "admin_ada@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Medellín", UserType.Admin);
+            await CheckUserAsync("Joann", "Quintero", "joannq", "admin_joann@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Bogotá", UserType.Admin);
+            await CheckUserAsync("John", "Smit", "johns", "user_ada@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Medellín", UserType.User);
         }
 
         private async Task CheckRolesAsync()
         {
-            //await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
-            //await _userHelper.CheckRoleAsync(UserType.User.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
         }
 
-        #region MyRegion
+        private async Task<User> CheckUserAsync(string name, string lastName, string userName, string email, string phone, string address, UserType userType)
+        {
+            var user = await _userHelper.GetUserAsync(userName);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Name = name,
+                    LastName = lastName,
+                    Email = email,
+                    UserName = userName,
+                    PhoneNumber = phone,
+                    Address = address
+                };
 
-        //private async Task<User> CheckUserAdminAsync(string document, string firstName, string lastName, string email, string phone, string address, string image, UserType userType)
-        //{
-        //var user = await _userHelper.GetUserAsync(email);
-        //if (user == null)
-        //{
-        //    var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
-        //    if (city == null)
-        //    {
-        //        city = await _context.Cities.FirstOrDefaultAsync();
-        //    }
+                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+            }
 
-        //    string filePath;
-        //    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        //    {
-        //        filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
-        //    }
-        //    else
-        //    {
-        //        filePath = $"{Environment.CurrentDirectory}/Images/users/{image}";
-        //    }
-
-        //    var fileBytes = File.ReadAllBytes(filePath);
-        //    var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "users");
-
-        //    user = new User
-        //    {
-        //        FirstName = firstName,
-        //        LastName = lastName,
-        //        Email = email,
-        //        UserName = email,
-        //        PhoneNumber = phone,
-        //        Address = address,
-        //        Document = document,
-        //        City = city,
-        //        UserType = userType,
-        //        Photo = imagePath,
-        //    };
-
-        //    await _userHelper.AddUserAsync(user, "123456");
-        //    await _userHelper.AddUserToRoleAsync(user, userType.ToString());
-
-        //    var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-        //    await _userHelper.ConfirmEmailAsync(user, token);
-        //}
-
-        //return user;
-        //}
-
-        #endregion MyRegion
+            return user;
+        }
 
         private async Task CheckCategoriesAsync()
         {

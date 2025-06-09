@@ -6,8 +6,7 @@ namespace ADAShop.Shared.Entities
     public class User : IdentityUser<long>
     {
         [MaxLength(20)]
-        [Required]
-        public string Identification { get; set; } = null!;
+        public string? Identification { get; set; }
 
         [MaxLength(50)]
         [Required]
