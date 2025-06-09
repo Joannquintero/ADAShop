@@ -7,8 +7,10 @@ namespace ADAShop.Api.Data
 {
     public class Context : IdentityDbContext<User, IdentityRole<long>, long>
     {
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Product> Product { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {

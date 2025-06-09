@@ -12,6 +12,7 @@ namespace ADAShop.Shared.Entities
         public string Name { get; set; } = null!;
 
         [DataType(DataType.MultilineText)]
+        [DisplayFormat(NullDisplayText = "Sin descripción")]
         [MaxLength(500)]
         public string Description { get; set; } = null!;
 
@@ -22,7 +23,7 @@ namespace ADAShop.Shared.Entities
         [Required]
         public float Stock { get; set; }
 
-        public string? Image { get; set; }
+        public string? Image { get; set; } = "wwwroot/images/not_available.png";  // default image
 
         public int ProductCategoriesNumber => ProductCategories == null ? 0 : ProductCategories.Count;
 

@@ -10,8 +10,8 @@ namespace ADAShop.Shared.Entities
         [Required]
         public string Name { get; set; } = null!;
 
-        public ICollection<ProductCategory>? ProductCategories { get; set; }
+        public ICollection<Product>? Products { get; set; }
 
-        public int ProductCategoriesNumber => ProductCategories == null ? 0 : ProductCategories.Count;
+        public ICollection<Category>? Categories { get; set; }
     }
 }
