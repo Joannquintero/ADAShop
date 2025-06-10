@@ -1,6 +1,7 @@
 ﻿using ADAShop.Api.Data;
 using ADAShop.Api.Helpers;
 using ADAShop.Shared.DTOs;
+using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -42,8 +43,8 @@ namespace ADAShop.Api.Controllers
             var result = await _userHelper.LoginAsync(loginDTO);
             if (result.Succeeded)
             {
-                var user = await _userHelper.GetUserAsync(loginDTO.Email);
-                return Ok(BuildToken(user, loginDTO));
+                var user = await _userHelper.GetUserAsync(loginDTO.UserName);
+                return Ok(await BuildToken(user));
             }
 
             if (result.IsLockedOut)
@@ -59,12 +60,13 @@ namespace ADAShop.Api.Controllers
             return BadRequest("Email o contraseña incorrectos.");
         }
 
-        private TokenDTO BuildToken(User user, LoginDTO loginDTO)
+        private async Task<TokenDTO> BuildToken(User user)
         {
+            var isUser = await _userHelper.IsUserInRoleAsync(user, UserType.Admin.ToString());
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email!),
-                new Claim(ClaimTypes.Role, loginDTO.UserType.ToString()),
+                new Claim(ClaimTypes.Role, isUser ? UserType.User.ToString() : UserType.Admin.ToString()),
                 new Claim("Name", user.Name),
                 new Claim("LastName", user.LastName),
                 new Claim("Address", user.Address),

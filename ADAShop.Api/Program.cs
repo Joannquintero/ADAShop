@@ -15,12 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-
-builder.Services.AddControllersWithViews();
 
 //inject the context
 builder.Services.AddDbContext<Context>(

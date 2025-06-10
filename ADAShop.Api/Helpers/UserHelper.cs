@@ -74,7 +74,7 @@ namespace ADAShop.Api.Helpers
 
         public async Task<SignInResult> LoginAsync(LoginDTO model)
         {
-            return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            return await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
         }
 
         public async Task LogoutAsync()
