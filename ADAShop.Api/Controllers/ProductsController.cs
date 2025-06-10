@@ -1,4 +1,4 @@
-﻿using ADAShop.Api.Repository;
+﻿using ADAShop.Api.Repository.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

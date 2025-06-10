@@ -1,4 +1,4 @@
-﻿namespace ADAShop.Api.Repository
+﻿namespace ADAShop.Api.Repository.Product
 {
     public interface IProductRepository
     {

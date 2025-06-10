@@ -1,7 +1,7 @@
 ﻿using ADAShop.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ADAShop.Api.Repository
+namespace ADAShop.Api.Repository.Product
 {
     public class ProductRepository : IProductRepository
     {
