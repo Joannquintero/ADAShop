@@ -5,6 +5,7 @@ using ADAShop.Api.Repository.Cart;
 using ADAShop.Api.Repository.Order;
 using ADAShop.Api.Repository.OrderItem;
 using ADAShop.Api.Repository.Product;
+using ADAShop.Api.Repository.Transactions;
 using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +35,8 @@ builder.Services.AddDbContext<Context>(
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IGenericExecuteSP, GenericExecuteSP>();
+builder.Services.AddScoped<IOrderItemTransactions, OrderItemTransactions>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();

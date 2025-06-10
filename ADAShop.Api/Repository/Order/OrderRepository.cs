@@ -1,4 +1,5 @@
 ﻿using ADAShop.Api.Data;
+using ADAShop.Api.Repository.Transactions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ADAShop.Api.Repository.Order
@@ -6,10 +7,12 @@ namespace ADAShop.Api.Repository.Order
     public class OrderRepository : IOrderRepository
     {
         private readonly Context _context;
+        private readonly IOrderItemTransactions _orderItemTransactions;
 
-        public OrderRepository(Context context)
+        public OrderRepository(Context context, IOrderItemTransactions orderItemTransactions)
         {
             _context = context;
+            _orderItemTransactions = orderItemTransactions;
         }
 
         public async Task<Shared.Entities.Order> CreateAsync(Shared.Entities.Order order)
@@ -37,7 +40,9 @@ namespace ADAShop.Api.Repository.Order
         /// <returns></returns>
         public async Task<Shared.Entities.OrderItem> CreateOrderItemAsync(Shared.Entities.OrderItem orderItem)
         {
-            return null;
+            var response = await _orderItemTransactions.Create(orderItem);
+            orderItem.Id = response.Id;
+            return orderItem;
         }
     }
 }

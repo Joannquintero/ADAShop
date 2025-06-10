@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers
 {
-    public class OrdersController : Controller
+    [ApiController]
+    [Route("/api/[controller]")]
+    public class OrdersController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
 
