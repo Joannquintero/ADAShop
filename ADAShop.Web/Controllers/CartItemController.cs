@@ -1,4 +1,5 @@
-﻿using ADAShop.Shared.Entities;
+﻿using ADAShop.Shared.Emuns;
+using ADAShop.Shared.Entities;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.CartItem;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace ADAShop.Web.Controllers
         {
             //TODO: [JAN] - Summary
             var carts = await _cartService.GetByUserIdAsync(3);
-            var cart = carts.LastOrDefault();
+            var cart = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).LastOrDefault();
 
             //ViewBag.Cart = cartService.GetAll("CartItems").FirstOrDefault();
             string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;

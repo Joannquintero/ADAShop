@@ -1,4 +1,4 @@
-﻿using ADAShop.Api.Helpers;
+﻿using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.Services.Cart;
@@ -16,8 +16,8 @@ namespace ADAShop.Web.Controllers
         private readonly IAccountService _accountService;
 
         public CartController(
-            ICartService cartService, 
-            IProductService productService, 
+            ICartService cartService,
+            IProductService productService,
             ICartItemService cartItemService,
             IAccountService accountService)
         {
@@ -51,6 +51,8 @@ namespace ADAShop.Web.Controllers
                 Cart cart = new Cart();
                 var user = await _accountService.GetAsync("johns");
                 cart.UserId = user.Id;
+                cart.Status = ShoppingCartStatusEnum.NEW.ToString();
+
                 var cartResponse = await _cartService.CreateAsync(cart);
                 CartItem cartItem = new CartItem()
                 {

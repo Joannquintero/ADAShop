@@ -30,5 +30,19 @@ namespace ADAShop.Api.Repository.Product
                  .FirstOrDefaultAsync();
             return response!;
         }
+
+        public async Task<Shared.Entities.Product> CreateAsync(Shared.Entities.Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return product;
+        }
+
+        public async Task<Shared.Entities.Product> UpdateAsync(Shared.Entities.Product product)
+        {
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            return product;
+        }
     }
 }

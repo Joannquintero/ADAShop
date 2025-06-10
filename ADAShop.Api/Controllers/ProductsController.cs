@@ -1,4 +1,5 @@
 ﻿using ADAShop.Api.Repository.Product;
+using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,20 @@ namespace ADAShop.Api.Controllers
         public async Task<ActionResult> GetById(int id)
         {
             var response = await _productRepository.GetByIdAsync(id);
+            return Ok(response);
+        }
+
+        [HttpPost(nameof(Insert))]
+        public async Task<ActionResult> Insert(Product product)
+        {
+            var response = await _productRepository.CreateAsync(product);
+            return Ok(response);
+        }
+
+        [HttpPost(nameof(Update))]
+        public async Task<ActionResult> Update(Product product)
+        {
+            var response = await _productRepository.UpdateAsync(product);
             return Ok(response);
         }
     }
