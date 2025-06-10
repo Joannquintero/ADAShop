@@ -4,7 +4,7 @@
     {
         Task<List<Shared.Entities.Cart>> GetAllAsync();
 
-        Task<Shared.Entities.Cart> GetByUserIdAsync(long userId);
+        Task<List<Shared.Entities.Cart>> GetByUserIdAsync(long userId);
 
         Task<Shared.Entities.Cart> CreateAsync(Shared.Entities.Cart cart);
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADAShop.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250610055803_InitiallDB")]
+    [Migration("20250610081914_InitiallDB")]
     partial class InitiallDB
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace ADAShop.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -357,8 +357,10 @@ namespace ADAShop.Api.Migrations
             modelBuilder.Entity("ADAShop.Shared.Entities.Cart", b =>
                 {
                     b.HasOne("ADAShop.Shared.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -370,7 +372,7 @@ namespace ADAShop.Api.Migrations
                         .HasForeignKey("CartId");
 
                     b.HasOne("ADAShop.Shared.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -448,6 +450,16 @@ namespace ADAShop.Api.Migrations
             modelBuilder.Entity("ADAShop.Shared.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("ADAShop.Shared.Entities.Product", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("ADAShop.Shared.Entities.User", b =>
+                {
+                    b.Navigation("carts");
                 });
 #pragma warning restore 612, 618
         }

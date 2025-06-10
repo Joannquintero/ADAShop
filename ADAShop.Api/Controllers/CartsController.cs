@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ADAShop.Api.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/[controller]")]
     public class CartsController : ControllerBase
     {
@@ -18,32 +18,33 @@ namespace ADAShop.Api.Controllers
             _cartRepository = cartRepository;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAll()
         {
             var response = await _cartRepository.GetAllAsync();
             return Ok(response);
         }
 
-        [Authorize(Roles = "User")]
+        [HttpGet(nameof(GetByUserId))]
+        //[Authorize(Roles = "User")]
         public async Task<ActionResult> GetByUserId(long userId)
         {
             var response = await _cartRepository.GetByUserIdAsync(userId);
             return Ok(response);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize("User")]
+        [HttpPost(nameof(Insert))]
+        //[ValidateAntiForgeryToken]
+        //[Authorize("User")]
         public async Task<ActionResult> Insert(Cart cart)
         {
             var response = await _cartRepository.CreateAsync(cart);
             return Ok(response);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize("User")]
+        [HttpPost(nameof(InsertCartItem))]
+        //[ValidateAntiForgeryToken]
+        //[Authorize("User")]
         public async Task<ActionResult> InsertCartItem(CartItem cartItem)
         {
             var response = await _cartRepository.CreateCartItemAsync(cartItem);

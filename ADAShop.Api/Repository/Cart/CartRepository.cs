@@ -16,6 +16,7 @@ namespace ADAShop.Api.Repository.Cart
         {
             var queryable = _context.Carts
                 .Include(x => x.CartItems)
+                .ThenInclude(x => x.Product)
                  .AsQueryable();
 
             return await queryable
@@ -23,14 +24,17 @@ namespace ADAShop.Api.Repository.Cart
                 .ToListAsync();
         }
 
-        public async Task<Shared.Entities.Cart> GetByUserIdAsync(long userId)
+        public async Task<List<Shared.Entities.Cart>> GetByUserIdAsync(long userId)
         {
-            var response = await _context.Carts
-                .Include(x => x.CartItems)
+            var response = _context.Carts
+                .Include(x => x.CartItems!)
+                .ThenInclude(x => x.Product)
                 .Where(x => x.UserId == userId)
-                 .FirstOrDefaultAsync();
+                 .AsQueryable();
 
-            return response!;
+            return await response
+                     .OrderBy(x => x.Id)
+                     .ToListAsync();
         }
 
         public async Task<Shared.Entities.Cart> CreateAsync(Shared.Entities.Cart cart)

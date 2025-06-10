@@ -21,5 +21,14 @@ namespace ADAShop.Api.Repository.Product
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
+
+        public async Task<Shared.Entities.Product> GetByIdAsync(int id)
+        {
+            var response = await _context.Products
+                .Include(x => x.Category)
+                .Where(x => x.Id == id)
+                 .FirstOrDefaultAsync();
+            return response!;
+        }
     }
 }

@@ -3,6 +3,8 @@ using ADAShop.Api.Helpers;
 using ADAShop.Shared.DTOs;
 using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,6 +24,14 @@ namespace ADAShop.Api.Controllers
         {
             _userHelper = userHelper;
             _configuration = configuration;
+        }
+
+        [HttpGet(nameof(Get))]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> Get(string userName)
+        {
+            //return Ok(await _userHelper.GetUserAsync(User.Identity!.Name!));
+            return Ok(await _userHelper.GetUserAsync(userName));
         }
 
         [HttpPost("CreateUser")]

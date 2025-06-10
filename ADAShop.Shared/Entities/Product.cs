@@ -26,5 +26,7 @@ namespace ADAShop.Shared.Entities
         public string? Image { get; set; } = "not_available.png";  // default image
 
         public Category? Category { get; set; }
+
+        public List<CartItem>? CartItems { get; set; }
     }
 }

@@ -18,6 +18,12 @@ namespace ADAShop.Web.Services.Product
             return responseHppt.Response!;
         }
 
+        public async Task<Shared.Entities.Product> GetByIdAsync(int id)
+        {
+            var responseHppt = await _repository.Get<Shared.Entities.Product>($"api/Products/GetById?id={id}");
+            return responseHppt.Response!;
+        }
+
         //TODO: [JAN] - Summary
         public async Task<List<WeatherForecast>> GetAllTestAsync()
         {

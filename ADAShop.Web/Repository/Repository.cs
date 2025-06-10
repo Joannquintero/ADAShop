@@ -43,7 +43,7 @@ namespace ADAShop.Web.Repository
         {
             var mesageJSON = JsonSerializer.Serialize(model);
             var messageContet = new StringContent(mesageJSON, Encoding.UTF8, "application/json");
-            var responseHttp = await _httpClient.PostAsync(url, messageContet);
+            var responseHttp = await _httpClient.PostAsync($"{_urlBase}{url}", messageContet);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
@@ -51,7 +51,7 @@ namespace ADAShop.Web.Repository
         {
             var messageJSON = JsonSerializer.Serialize(model);
             var messageContet = new StringContent(messageJSON, Encoding.UTF8, "application/json");
-            var responseHttp = await _httpClient.PostAsync(url, messageContet);
+            var responseHttp = await _httpClient.PostAsync($"{_urlBase}{url}", messageContet);
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnserializeAnswer<TResponse>(responseHttp, _jsonDefaultOptions);
@@ -63,7 +63,7 @@ namespace ADAShop.Web.Repository
 
         public async Task<HttpResponseWrapper<object>> Delete(string url)
         {
-            var responseHTTP = await _httpClient.DeleteAsync(url);
+            var responseHTTP = await _httpClient.DeleteAsync($"{_urlBase}{url}");
             return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
         }
 
@@ -71,7 +71,7 @@ namespace ADAShop.Web.Repository
         {
             var messageJSON = JsonSerializer.Serialize(model);
             var messageContent = new StringContent(messageJSON, Encoding.UTF8, "application/json");
-            var responseHttp = await _httpClient.PutAsync(url, messageContent);
+            var responseHttp = await _httpClient.PutAsync($"{_urlBase}{url}", messageContent);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
@@ -79,7 +79,7 @@ namespace ADAShop.Web.Repository
         {
             var messageJSON = JsonSerializer.Serialize(model);
             var messageContent = new StringContent(messageJSON, Encoding.UTF8, "application/json");
-            var responseHttp = await _httpClient.PutAsync(url, messageContent);
+            var responseHttp = await _httpClient.PutAsync($"{_urlBase}{url}", messageContent);
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnserializeAnswer<TResponse>(responseHttp, _jsonDefaultOptions);

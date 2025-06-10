@@ -29,17 +29,15 @@ namespace ADAShop.Web.Controllers
         public async Task<IActionResult> Index()
         {
             List<Product> products = await _productService.GetAllAsync();
-            //List<Cart> carts = _cartService.GetAll();
-            List<Cart> carts = new List<Cart>();
+            var carts = await _cartService.GetByUserIdAsync(3);
 
             string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             ViewBag.UserId = userIdClaim;
-            //ViewBag.AllProductsNames = productService.GetAll().Select(p => p.Name);
+            ViewBag.AllProductsNames = products.Select(p => p.Name);
 
             if (carts.Count == 0)
             {
                 Cart cart = new Cart() { CartItems = new List<CartItem>() };
-
                 ProdCatCartVM model = new ProdCatCartVM()
                 {
                     Products = products,
@@ -52,9 +50,8 @@ namespace ADAShop.Web.Controllers
             {
                 ProdCatCartVM model = new ProdCatCartVM()
                 {
-                    //Categories = categoryService.GetAll(),
-                    //Products = products,
-                    //Cart = cartService.GetAll("CartItems").FirstOrDefault(),
+                    Products = products,
+                    Cart = carts.FirstOrDefault()
                 };
 
                 return View(model);

@@ -22,5 +22,13 @@ namespace ADAShop.Api.Controllers
             var response = await _productRepository.GetAllAsync();
             return Ok(response);
         }
+
+        [HttpGet("GetById")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var response = await _productRepository.GetByIdAsync(id);
+            return Ok(response);
+        }
     }
 }
