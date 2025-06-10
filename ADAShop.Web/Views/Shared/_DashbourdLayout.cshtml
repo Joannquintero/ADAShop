@@ -44,7 +44,7 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADA Shop Admin</h3>
+                    <h3 class="text-primary"><i class="fa fa-dashboard me-2"></i>ADA Admin</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -63,12 +63,10 @@
                 <div class="navbar-nav w-100">
                     <a asp-action="orders" asp-controller="dashbourd" class="nav-item nav-link dashbourd-nav-item" id="dashbourdOrder"><i class="fa fa-truck me-2"></i>Órdenes</a>
                     <a asp-action="products" asp-controller="dashbourd" class="nav-item nav-link dashbourd-nav-item" id="dashbourdProducts"><i class="fa fa-laptop me-2"></i>Productos</a>  
-                    <a asp-action="admins" asp-controller="dashbourd" class="nav-item nav-link"><i class="fas fa-star"></i>Administradores</a>
                 </div>
             </nav>
         </div>
         <!-- Sidebar End -->
-        <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
@@ -97,10 +95,9 @@
             </div>
 
             <!-- Content End -->
-            <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
-
+        </div>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -116,5 +113,4 @@
         </script>
         @RenderSection("Scripts", false);
 </body>
-
 </html>

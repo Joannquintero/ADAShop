@@ -7,7 +7,7 @@ namespace ADAShop.Api.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class ProductsController : Controller
+    public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
 

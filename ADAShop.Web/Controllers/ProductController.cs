@@ -1,15 +1,23 @@
-﻿using ADAShop.Shared.Entities;
-using ADAShop.Web.Services.Cart;
-using ADAShop.Web.Services.Product;
+﻿using ADAShop.Web.Services.Category;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Web.Controllers
 {
     public class ProductController : Controller
     {
-        public ProductController()
-        {
+        private readonly ICategoryService _categoryService;
 
+        public ProductController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            ViewModels.Product.ProductWithListOfCatesVM product = new();
+            product.categories = await _categoryService.GetAllAsync();
+            return View(product);
         }
     }
 }

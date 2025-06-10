@@ -2,6 +2,7 @@ using ADAShop.Api.Data;
 using ADAShop.Api.Helpers;
 using ADAShop.Api.Helpers.GenericExecuteSP;
 using ADAShop.Api.Repository.Cart;
+using ADAShop.Api.Repository.Category;
 using ADAShop.Api.Repository.Order;
 using ADAShop.Api.Repository.OrderItem;
 using ADAShop.Api.Repository.Product;
@@ -37,6 +38,7 @@ builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IGenericExecuteSP, GenericExecuteSP>();
 builder.Services.AddScoped<IOrderItemTransactions, OrderItemTransactions>();
 
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
