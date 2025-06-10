@@ -3,6 +3,8 @@ using ADAShop.Web.Services.Account;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.CartItem;
 using ADAShop.Web.Services.Category;
+using ADAShop.Web.Services.Order;
+using ADAShop.Web.Services.OrderItem;
 using ADAShop.Web.Services.Product;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,8 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartItemService, CartItemService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IOrdenService, OrdenService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
 var app = builder.Build();
 

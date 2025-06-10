@@ -15,7 +15,7 @@ namespace ADAShop.Api.Controllers
             _productRepository = productRepository;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet(nameof(GetAll))]
         [AllowAnonymous]
         public async Task<ActionResult> GetAll()
         {
@@ -23,7 +23,7 @@ namespace ADAShop.Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("GetById")]
+        [HttpGet(nameof(GetById))]
         [AllowAnonymous]
         public async Task<ActionResult> GetById(int id)
         {
