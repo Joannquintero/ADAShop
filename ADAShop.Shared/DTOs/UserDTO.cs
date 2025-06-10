@@ -19,6 +19,6 @@ namespace ADAShop.Shared.DTOs
         [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe tener entre {2} y {1} carácteres.")]
         public string PasswordConfirm { get; set; } = null!;
 
-        public UserType? UserType { get; set; }
+        public UserTypeEnum? UserType { get; set; }
     }
 }

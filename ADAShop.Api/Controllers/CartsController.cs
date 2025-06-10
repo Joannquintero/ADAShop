@@ -33,6 +33,14 @@ namespace ADAShop.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet(nameof(GetById))]
+        //[Authorize(Roles = "User")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var response = await _cartRepository.GetByIdAsync(id);
+            return Ok(response);
+        }
+
         [HttpPost(nameof(Insert))]
         //[ValidateAntiForgeryToken]
         //[Authorize("User")]

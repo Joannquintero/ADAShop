@@ -26,7 +26,7 @@ namespace ADAShop.Api.Repository.Transactions
                 NameStoreProcedure = "OrderItem_Create",
                 NameDataBaseSelection = "DefaultConnection",
                 Params = paramGenerics,
-                ActionSP = EnumActionSP.Insert
+                ActionSP = ActionSPEnum.Insert
             };
             GenericResultDTO genericResultDTO = await _genericExecuteSP.ExecuteGenericSPAsync<GenericResultDTO>(genericSPExecuteDTO);
             return genericResultDTO;

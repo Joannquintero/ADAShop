@@ -23,6 +23,12 @@ namespace ADAShop.Web.Services.Cart
             return responseHppt.Response!;
         }
 
+        public async Task<Shared.Entities.Cart> GetByIdAsync(int id)
+        {
+            var responseHppt = await _repository.Get<Shared.Entities.Cart>($"api/Carts/GetById?id={id}");
+            return responseHppt.Response!;
+        }
+
         public async Task<Shared.Entities.Cart> CreateAsync(Shared.Entities.Cart cart)
         {
             var responseHppt = await _repository.Post<Shared.Entities.Cart, Shared.Entities.Cart>("api/Carts/Insert", cart);

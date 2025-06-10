@@ -9,5 +9,7 @@
         Task<Shared.Entities.Cart> CreateAsync(Shared.Entities.Cart cart);
 
         Task<Shared.Entities.CartItem> CreateCartItemAsync(Shared.Entities.CartItem cartItem);
+
+        Task<Shared.Entities.Cart> GetByIdAsync(int id);
     }
 }

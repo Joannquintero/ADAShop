@@ -7,7 +7,7 @@ namespace ADAShop.Shared.DTOs
         public string NameStoreProcedure { get; set; }
         public string NameDataBaseSelection { get; set; }
         public List<ParamGeneric> Params { get; set; }
-        public EnumActionSP ActionSP { get; set; }
+        public ActionSPEnum ActionSP { get; set; }
     }
 
     public class ParamGeneric

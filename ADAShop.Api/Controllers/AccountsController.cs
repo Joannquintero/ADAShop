@@ -72,11 +72,11 @@ namespace ADAShop.Api.Controllers
 
         private async Task<TokenDTO> BuildToken(User user)
         {
-            var isUser = await _userHelper.IsUserInRoleAsync(user, UserType.Admin.ToString());
+            var isUser = await _userHelper.IsUserInRoleAsync(user, UserTypeEnum.Admin.ToString());
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email!),
-                new Claim(ClaimTypes.Role, isUser ? UserType.User.ToString() : UserType.Admin.ToString()),
+                new Claim(ClaimTypes.Role, isUser ? UserTypeEnum.User.ToString() : UserTypeEnum.Admin.ToString()),
                 new Claim("Name", user.Name),
                 new Claim("LastName", user.LastName),
                 new Claim("Address", user.Address),

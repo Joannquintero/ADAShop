@@ -37,7 +37,7 @@ namespace ADAShop.Api.Helpers.GenericExecuteSP
 
                 switch (generiRequestDTO.ActionSP)
                 {
-                    case EnumActionSP.Insert:
+                    case ActionSPEnum.Insert:
                         await cmd.ExecuteNonQueryAsync();
 
                         GenericResultDTO response = new GenericResultDTO() { IsSuccesfull = true };
@@ -47,7 +47,7 @@ namespace ADAShop.Api.Helpers.GenericExecuteSP
 
                         return (T)(object)response;
 
-                    case EnumActionSP.Select:
+                    case ActionSPEnum.Select:
                         DataTable dt = new DataTable();
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         da.Fill(dt);
@@ -68,7 +68,7 @@ namespace ADAShop.Api.Helpers.GenericExecuteSP
 
                         return (T)(object)(JsonConvert.DeserializeObject<T>(resulJsonList)!);
 
-                    case EnumActionSP.Update:
+                    case ActionSPEnum.Update:
 
                         await cmd.ExecuteNonQueryAsync();
 

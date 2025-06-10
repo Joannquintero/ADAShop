@@ -1,6 +1,6 @@
 ﻿namespace ADAShop.Shared.Emuns
 {
-    public enum UserType
+    public enum UserTypeEnum
     {
         User,
         Admin

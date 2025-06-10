@@ -39,9 +39,9 @@ namespace ADAShop.Web.Controllers
 
             HttpContext.Session.SetInt32("uId", UserId);
             HttpContext.Session.SetInt32("cId", CartId);
-            var carts = await _cartService.GetByUserIdAsync(UserId);
+            var carts = await _cartService.GetByIdAsync(CartId);
 
-            List<CartItem> cartItems = carts.FirstOrDefault()!.CartItems!;
+            List<CartItem> cartItems = carts.CartItems!;
             User? user = await _accountService.GetAsync("johns");
             if (user != null)
             {

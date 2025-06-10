@@ -22,18 +22,18 @@ namespace ADAShop.Api.Data
             await CheckRolesAsync();
             await CheckCategoriesAsync();
             await CheckProductsAsync();
-            await CheckUserAsync("ADMIN", "ADA", "ada", "admin_ada@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Medellín", UserType.Admin);
-            await CheckUserAsync("Joann", "Quintero", "joannq", "admin_joann@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Bogotá", UserType.Admin);
-            await CheckUserAsync("John", "Smit", "johns", "user_ada@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Medellín", UserType.User);
+            await CheckUserAsync("ADMIN", "ADA", "ada", "admin_ada@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Medellín", UserTypeEnum.Admin);
+            await CheckUserAsync("Joann", "Quintero", "joannq", "admin_joann@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Bogotá", UserTypeEnum.Admin);
+            await CheckUserAsync("John", "Smit", "johns", "user_ada@yopmail.com", "+57 301 101 1150", "1734 Stonecoal Road Medellín", UserTypeEnum.User);
         }
 
         private async Task CheckRolesAsync()
         {
-            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
-            await _userHelper.CheckRoleAsync(UserType.User.ToString());
+            await _userHelper.CheckRoleAsync(UserTypeEnum.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserTypeEnum.User.ToString());
         }
 
-        private async Task<User> CheckUserAsync(string name, string lastName, string userName, string email, string phone, string address, UserType userType)
+        private async Task<User> CheckUserAsync(string name, string lastName, string userName, string email, string phone, string address, UserTypeEnum userType)
         {
             var user = await _userHelper.GetUserAsync(userName);
             if (user == null)

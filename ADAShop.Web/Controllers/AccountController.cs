@@ -32,7 +32,7 @@ namespace ADAShop.Web.Controllers
                 PhoneNumber = model.PhoneNumber,
                 PasswordHash = model.Password,
                 PasswordConfirm = model.ConfirmPassword,
-                UserType = !isAdmin ? UserType.User : UserType.Admin
+                UserType = !isAdmin ? UserTypeEnum.User : UserTypeEnum.Admin
             };
 
             if (ModelState.IsValid)

@@ -2,7 +2,7 @@
 
 namespace ADAShop.Shared.Emuns
 {
-    public enum EnumActionSP
+    public enum ActionSPEnum
     {
         [Description("Insert")]
         Insert,

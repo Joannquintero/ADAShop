@@ -37,6 +37,15 @@ namespace ADAShop.Api.Repository.Cart
                      .ToListAsync();
         }
 
+        public async Task<Shared.Entities.Cart> GetByIdAsync(int id)
+        {
+            var response = await _context.Carts
+                .Include(x => x.CartItems)
+                .Where(x => x.Id == id)
+                 .FirstOrDefaultAsync();
+            return response!;
+        }
+
         public async Task<Shared.Entities.Cart> CreateAsync(Shared.Entities.Cart cart)
         {
             _context.Carts.Add(cart);
