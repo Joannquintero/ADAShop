@@ -12,7 +12,7 @@ namespace ADAShop.Web.ViewModels.Product
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; } = null!;
 
-        [DisplayFormat(NullDisplayText = "Sin descripción.")]
+        [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Descripción")]
         public string? Description { get; set; }
@@ -30,7 +30,7 @@ namespace ADAShop.Web.ViewModels.Product
 
         [Display(Name = "Cantidad")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int Quantity { get; set; } = 0;
+        public float Quantity { get; set; } = 0;
 
         [ForeignKey("Category")]
         [Display(Name = "Categoría")]
