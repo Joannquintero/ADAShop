@@ -40,7 +40,8 @@ namespace ADAShop.Api.Repository.Cart
         public async Task<Shared.Entities.Cart> GetByIdAsync(int id)
         {
             var response = await _context.Carts
-                .Include(x => x.CartItems)
+                .Include(x => x.CartItems)!
+                .ThenInclude(x => x.Product)
                 .Where(x => x.Id == id)
                  .FirstOrDefaultAsync();
             return response!;

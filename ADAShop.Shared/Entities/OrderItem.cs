@@ -17,5 +17,8 @@ namespace ADAShop.Shared.Entities
         public int OrderId { get; set; }
 
         public Order Order { get; set; } = null!;
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Amount { get; set; }
     }
 }

@@ -1,0 +1,95 @@
+﻿@using ADAShop.Shared.Entities
+@model List<Order>
+@{
+    ViewData["Title"] = "Dashbourd";
+    Layout = "_DashbourdLayout";
+}
+
+<style>
+    html,
+    body,
+    .intro {
+        height: 100%;
+    }
+
+    table td,
+    table th {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    thead th {
+        color: #fff;
+    }
+
+    .card {
+        border-radius: .5rem;
+    }
+
+    .table-scroll {
+        border-radius: .5rem;
+    }
+
+        .table-scroll table thead th {
+            font-size: 1.25rem;
+        }
+
+    thead {
+        top: 0;
+        position: sticky;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container">
+    @if (Model!.Any() && Model!.Count() > 0)
+    {
+        <section class="intro">
+            <div class="bg-image h-100" style="background-color: #f5f7fa;">
+                <div class="mask d-flex align-items-center h-100">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                            <table class="table table-striped mb-0">
+                                                <thead style="background-color: #002d72;">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Fecha</th>
+                                                        <th scope="col">Usuario</th>
+                                                        <th scope="col">Valor</th>
+                                                        <th scope="col">Total Artículos</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (Order p in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>@p.Id</td>
+                                                            <td>@p.OrderDate</td>
+                                                            <td>@($"{p.User!.Name} {p.User.LastName}")</td>
+                                                            <td>@String.Format("{0:C}", p.OrderItems!.Sum(c => c?.Amount))</td>
+                                                            <td>$ @p.OrderItems!.Sum(c => c?.Quantity)</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    else
+    {
+        <h2 class="text-center p-5">No hay Órdenes disponible.</h2>
+    }
+</div>
+

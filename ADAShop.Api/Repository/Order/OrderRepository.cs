@@ -26,6 +26,7 @@ namespace ADAShop.Api.Repository.Order
         {
             var queryable = _context.Orders
                .Include(x => x.OrderItems)
+               .Include(x => x.User)
                 .AsQueryable();
 
             return await queryable

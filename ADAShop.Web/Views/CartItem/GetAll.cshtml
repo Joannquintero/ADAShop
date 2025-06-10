@@ -237,7 +237,7 @@
 
                                 <div class="cart-summary">
                                     <small>@Model?.Count() Artículo(s) seleccionado(s)</small>
-                                    <h5>SUBTOTAL: $ @Model?.Sum(c => c?.Product?.Price * c?.Quantity)</h5>
+                                    <h5>SUBTOTAL: @String.Format("{0:C}", @Model?.Sum(c => c?.Product?.Price * c?.Quantity))</h5>
                                 </div>
                                 <div class="cart-btns">
                                     <a asp-action="GetAll" asp-controller="CartItem">Ver Carrito</a>

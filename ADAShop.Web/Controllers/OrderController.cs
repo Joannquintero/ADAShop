@@ -60,7 +60,8 @@ namespace ADAShop.Web.Controllers
                         {
                             ProductId = cart.ProductId,
                             OrderId = order.Id,
-                            Quantity = cart.Quantity
+                            Quantity = cart.Quantity,
+                            Amount = cart.Product!.Price * cart.Quantity,
                         };
 
                         var responseOrderItem = await _orderItemService.CreateAsync(orderItem);

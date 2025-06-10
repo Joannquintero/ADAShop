@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADAShop.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250610192452_InitialDB")]
+    [Migration("20250610204021_InitialDB")]
     partial class InitialDB
     {
         /// <inheritdoc />
@@ -122,6 +122,9 @@ namespace ADAShop.Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");

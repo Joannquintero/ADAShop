@@ -11,6 +11,12 @@ namespace ADAShop.Web.Services.Order
             _repository = repository;
         }
 
+        public async Task<List<Shared.Entities.Order>> GetAllAsync()
+        {
+            var responseHppt = await _repository.Get<List<Shared.Entities.Order>>($"api/Orders/GetAll");
+            return responseHppt.Response!;
+        }
+
         public async Task<Shared.Entities.Order> CreateAsync(Shared.Entities.Order order)
         {
             var responseHppt = await _repository.Post<Shared.Entities.Order, Shared.Entities.Order>("api/Orders/Insert", order);
