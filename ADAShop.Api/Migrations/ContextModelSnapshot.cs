@@ -54,8 +54,8 @@ namespace ADAShop.Api.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Quantity")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -74,17 +74,12 @@ namespace ADAShop.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -130,29 +125,6 @@ namespace ADAShop.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("ADAShop.Shared.Entities.ProductCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductCategory");
                 });
 
             modelBuilder.Entity("ADAShop.Shared.Entities.User", b =>
@@ -405,37 +377,13 @@ namespace ADAShop.Api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ADAShop.Shared.Entities.Category", b =>
-                {
-                    b.HasOne("ADAShop.Shared.Entities.Category", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("CategoryId");
-                });
-
             modelBuilder.Entity("ADAShop.Shared.Entities.Product", b =>
                 {
-                    b.HasOne("ADAShop.Shared.Entities.Category", null)
+                    b.HasOne("ADAShop.Shared.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
-                });
-
-            modelBuilder.Entity("ADAShop.Shared.Entities.ProductCategory", b =>
-                {
-                    b.HasOne("ADAShop.Shared.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ADAShop.Shared.Entities.Product", "Product")
-                        .WithMany("ProductCategories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Category");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -496,14 +444,7 @@ namespace ADAShop.Api.Migrations
 
             modelBuilder.Entity("ADAShop.Shared.Entities.Category", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ADAShop.Shared.Entities.Product", b =>
-                {
-                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 using ADAShop.Api.Data;
 using ADAShop.Api.Helpers;
+using ADAShop.Api.Repository;
 using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,7 @@ builder.Services.AddDbContext<Context>(
 
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IUserHelper, UserHelper>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddIdentity<User, IdentityRole<long>>(x =>
 {

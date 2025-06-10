@@ -1,7 +1,18 @@
+using ADAShop.Web.Repository;
+using ADAShop.Web.Services.Cart;
+using ADAShop.Web.Services.Category;
+using ADAShop.Web.Services.Product;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5238") });
+builder.Services.AddScoped<IRepository, Repository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
@@ -24,6 +35,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();

@@ -6,8 +6,6 @@ namespace ADAShop.Web.ViewModels.Home
     {
         public List<Product>? Products { get; set; }
 
-        public List<Category>? Categories { get; set; }
-
         public Cart? Cart { get; set; }
     }
 }

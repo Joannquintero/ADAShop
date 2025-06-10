@@ -8,7 +8,7 @@ namespace ADAShop.Shared.Entities
         public int Id { get; set; }
 
         [Required]
-        public float Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [ForeignKey("Product")]
         public int ProductId { get; set; }

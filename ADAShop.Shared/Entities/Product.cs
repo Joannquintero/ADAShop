@@ -23,10 +23,8 @@ namespace ADAShop.Shared.Entities
         [Required]
         public float Stock { get; set; }
 
-        public string? Image { get; set; } = "wwwroot/images/not_available.png";  // default image
+        public string? Image { get; set; } = "not_available.png";  // default image
 
-        public int ProductCategoriesNumber => ProductCategories == null ? 0 : ProductCategories.Count;
-
-        public ICollection<ProductCategory>? ProductCategories { get; set; }
+        public Category? Category { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model ADAShop.Web.ViewModels.Home.ProdCatCartVM
+﻿@using ADAShop.Shared.Entities
+@model ADAShop.Web.ViewModels.Home.ProdCatCartVM
 
 @{
     ViewData["Title"] = "Home Page";
@@ -136,28 +137,28 @@
                                 </a>
                                 <div class="cart-dropdown">
                                     <div class="cart-list">
-                                        @* 		@foreach (var item in Model.Cart.CartItems)
-										{
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="~/img/@item.Product.ImageUrl" alt="@item.Product.Name" width="200" />
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
-													<h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-										} *@
+                                        @foreach (var item in Model!.Cart!.CartItems!)
+                                        {
+                                            <div class="product-widget">
+                                                <div class="product-img">
+                                                    <img src="~/img/@item.Product!.Image" alt="@item.Product.Name" width="200" />
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
+                                                    <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
+                                                </div>
+                                                <button class="delete"><i class="fa fa-close"></i></button>
+                                            </div>
+                                        }
                                     </div>
 
                                     <div class="cart-summary">
-                                        @* 								<small>@Model.Cart.CartItems.Count Item(s) selected</small>
-										<h5>SUBTOTAL: $ @Model.Cart.CartItems.Sum(c => c.Product.Price * c.Quantity)</h5> *@
+                                        <small>@Model.Cart.CartItems.Count Artículos(s) Seleccionados</small>
+                                        <h5>SUBTOTAL: $ @Model.Cart.CartItems.Sum(c => c.Product!.Price * c.Quantity)</h5>
                                     </div>
                                     <div class="cart-btns">
-                                        <a asp-action="GetAll" asp-controller="CartItem">View Cart</a>
-                                        @* 	<a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a> *@
+                                        <a asp-action="GetAll" asp-controller="CartItem">Ver carrito</a>
+                                        <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Verificar  <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -204,93 +205,66 @@
         <div class="container">
             <!-- row -->
             <div class="row">
-                @* 	@foreach (Category cat in Model.Categories)
-				{
-					<!-- shop -->
-					<a asp-action="Details" asp-controller="Category" asp-route-id="@cat.Id">
-						<div class="col-md-4 col-xs-6">
-							<div class="shop">
-								<div class="shop-img">
-									<img src="/img/@cat.ImageUrl" alt="@cat.Name" height="300" style="max-width: 100%;" width="auto">
-								</div>
-								<div class="shop-body">
-									<h3>@cat.Name<br>Collection</h3>
-								</div>
-							</div>
-						</div>
-					</a>
-					<!-- /shop -->
-				} *@
-            </div>
-            <!-- /row -->
-        </div>
-        <!-- /container -->
-    </div>
-    <!-- /SECTION -->
-    <!-- SECTION -->
-    <div class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-
-                <!-- section title -->
-                <div class="col-md-12" style="margin-top:20px">
-                    <div class="section-title">
-                        @* 		<h3 class="title">New Products</h3>
-								<div class="section-nav">
-							<ul class="section-tab-nav tab-nav">
-								@foreach (var item in Model.Categories)
-								{
-								   <li data-toggle="tab">@item.Name</li>
-								}
-							</ul>
-						</div> *@
-                    </div>
-                </div>
-                <!-- /section title -->
                 <!-- Products tab & slick -->
                 <div class="col-md-12">
                     <div class="row">
                         <div class="products-tabs">
                             <!-- tab -->
                             <div id="tab1" class="tab-pane active">
-                                @* 	<div class="products-slick" data-nav="#slick-nav-1">
-									<div class="row row-cols-1 row-cols-md-4 g-4 mt-1">
-										@for (int i = 0; i < 5; i++)
-										{
-											<div class="col">
-												<div class="card h-100">
-													<div class="text-center zoom">
-														<img src="/images/not_available.png" style="height:150px; max-width:200px;" class="text-center" alt="Lorem Ipsum" />
-													</div>
-													<div class="card-body">
-														<h5 class="card-title text-navy"> Lorem Ipsum</h5>
-														<p class="card-text smfnt">Lorem Ipsum</p>
-														<h5 class="text-muted">@($"{150000:C2}")</h5>
-													</div>
-													<div class="card-footer text-center">
-														<a href="/orders/details/5" class="btn btn-sm btn-secondary"><i class="oi oi-info" /> Detalles</a>
-														<button class="btn btn-sm btn-primary"><i class="oi oi-plus" /> Agregar al Carro</button>
-													</div>
-												</div>
-											</div>
-										}
-									</div> *@
+                                <div class="products-slick" data-nav="#slick-nav-1">
+                                    @if (Model!.Products != null)
+                                    {
+                                        foreach (Product prod in Model.Products!)
+                                        {
+                                            <!-- product -->
+                                            <div class="product">
+                                                <a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">
+                                                    <div class="product-img">
+                                                        @* <img src="./img/@prod.Image" alt="@image" height="200"> *@
+                                                        <img src="~/images/not_available.png" alt="@prod.Image" height="200">
+                                                    </div>
+                                                </a>
+                                                <div class="product-body">
+                                                    @{
+                                                        string categoryName = prod.Category != null ? prod.Category.Name : string.Empty;
+                                                    }
+                                                    <p class="product-category">@categoryName</p>
+                                                    <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">@prod.Name</a></h3>
+                                                    <h4 class="product-price">$@prod.Price <del class="product-old-price">$@(prod.Price + 1999)</del></h4>
+                                                    <div class="product-btns">
+                                                        <button class="quick-view">
+                                                            <a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">
+                                                                <i class="fa fa-eye"></i>
+                                                                <span class="tooltipp">Vista rápida</span>
+                                                            </a>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="add-to-cart">
+                                                    <a asp-action="AddToCart" asp-controller="Product" asp-route-id="@prod.Id">
+                                                        <button onclick="AddToCart()" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- /product -->
+                                        }
+                                    }
+                                </div>
+                                <div id="slick-nav-1" class="products-slick-nav"></div>
                             </div>
-                            <div id="slick-nav-1" class="products-slick-nav"></div>
+                            <!-- /tab -->
                         </div>
-                        <!-- /tab -->
                     </div>
                 </div>
+                <!-- Products tab & slick -->
             </div>
-            <!-- Products tab & slick -->
         </div>
         <!-- /row -->
     </div>
     <!-- /container -->
-    <!-- body -->
-    <!-- /body -->
+    <!-- SECTION -->
+    <div class="section" style="margin-top:60px"></div>
+    <!-- /SECTION -->
     <!-- FOOTER -->
     <footer id="footer">
         <!-- top footer -->

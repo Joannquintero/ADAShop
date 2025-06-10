@@ -1,6 +1,7 @@
 ﻿using ADAShop.Api.Helpers;
 using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ADAShop.Api.Data
 {
@@ -70,10 +71,16 @@ namespace ADAShop.Api.Data
         {
             if (!_context.Products.Any())
             {
+                var CategorySmartphones = await _context.Categories.FirstOrDefaultAsync(x => x.Id == 1);
+                var CategoryLaptops = await _context.Categories.FirstOrDefaultAsync(x => x.Id == 2);
+
                 _context.Products.Add(new Product { Name = "Portatil ACER", Price = 75000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 10 });
-                _context.Products.Add(new Product { Name = "Mouse Inalámbrico", Price = 125000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 20 });
-                _context.Products.Add(new Product { Name = "Iphone 16", Price = 125000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 40 });
+                _context.Products.Add(new Product { Name = "Mouse Inalámbrico", Price = 125000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 20, Category = CategoryLaptops });
+                _context.Products.Add(new Product { Name = "Iphone 16", Price = 125000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 40, Category = CategorySmartphones });
+                _context.Products.Add(new Product { Name = "Samsung S22N", Price = 250000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 21 });
                 _context.Products.Add(new Product { Name = "Samsung S22", Price = 250000, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 21 });
+                _context.Products.Add(new Product { Name = "Samsung S22E", Price = 89211, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 51 });
+                _context.Products.Add(new Product { Name = "Iphone 14", Price = 5211, Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", Stock = 20 });
                 await _context.SaveChangesAsync();
             }
         }
