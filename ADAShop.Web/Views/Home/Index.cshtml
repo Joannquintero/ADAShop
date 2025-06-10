@@ -145,7 +145,7 @@
                                                 </div>
                                                 <div class="product-body">
                                                     <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
-                                                    <h4 class="product-price"><span class="qty">@item.Quantity x</span>$ @item.Product.Price</h4>
+                                                    <h4 class="product-price"><span class="qty">@item.Quantity x</span>@String.Format("{0:C}", item.Product.Price)</h4>
                                                 </div>
                                                 <button class="delete"><i class="fa fa-close"></i></button>
                                             </div>
@@ -154,11 +154,11 @@
 
                                     <div class="cart-summary">
                                         <small>@Model.Cart.CartItems.Count Artículos(s) Seleccionados</small>
-                                        <h5>SUBTOTAL: $ @Model.Cart.CartItems.Sum(c => c.Product!.Price * c.Quantity)</h5>
+                                        <h5>SUBTOTAL: @String.Format("{0:C}", Model.Cart.CartItems.Sum(c => c.Product!.Price * c.Quantity))</h5>
                                     </div>
                                     <div class="cart-btns">
-                                        <a asp-action="GetAll" asp-controller="CartItem">Ver carrito</a>
-                                        <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Verificar  <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a asp-action="GetAll" asp-controller="CartItem">Ver carrito <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Limpiar <i class="fa fa-archive"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -230,7 +230,7 @@
                                                     }
                                                     <p class="product-category">@categoryName</p>
                                                     <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">@prod.Name</a></h3>
-                                                    <h4 class="product-price">$@prod.Price <del class="product-old-price">$@(prod.Price + 1999)</del></h4>
+                                                    <h4 class="product-price">@String.Format("{0:C}", prod.Price)</h4>
                                                     <div class="product-btns">
                                                         <button class="quick-view">
                                                             <a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">

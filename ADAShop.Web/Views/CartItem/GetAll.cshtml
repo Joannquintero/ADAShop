@@ -240,8 +240,7 @@
                                     <h5>SUBTOTAL: $ @Model?.Sum(c => c?.Product?.Price * c?.Quantity)</h5>
                                 </div>
                                 <div class="cart-btns">
-                                    <a asp-action="GetAll" asp-controller="CartItem">View Cart</a>
-                                    <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.FirstOrDefault()?.Id" asp-route-userId="@ViewBag?.UserId">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a asp-action="GetAll" asp-controller="CartItem">Ver Carrito</a>
                                 </div>
                             </div>
                         </div>
@@ -314,9 +313,9 @@
 <!-- /BREADCRUMB -->
 
 <main class="container main">
-
-    <h2 class="text-center p-5">Artículos del carrito</h2>
-
+    @if (Model!.Any() && Model!.Count() > 0)
+    {
+            <h2 class="text-center p-5">Artículos del carrito</h2>
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr>
@@ -378,4 +377,9 @@
     <div class="cart-btns container text-center">
         <a class="btn btn-success checkout-btn" asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.FirstOrDefault()?.Id" asp-route-userId="@ViewBag?.UserId">Pagar ahora <i class="fa fa-arrow-circle-right"></i></a>
     </div>
+    }
+    else
+    {
+        <h2 class="text-center p-5">No tienes artículos en tu carrito de compras.</h2>
+    }
 </main>

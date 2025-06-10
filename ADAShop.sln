@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36109.1 d17.14
+VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADAShop.Web", "ADAShop.Web\ADAShop.Web.csproj", "{4E1DCB82-A0E3-4192-AFDF-E6733CBA68BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADAShop.Api", "ADAShop.Api\ADAShop.Api.csproj", "{E3FE3D58-B950-49E0-9853-2691B17CDC17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADAShop.Shared", "ADAShop.Shared\ADAShop.Shared.csproj", "{A6B5A308-60C6-4AE3-B2B6-86EA8C2155DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Query_Sql", "Query_Sql", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\kpgdev\Documents\OrderItem_Create.sql = ..\..\Users\kpgdev\Documents\OrderItem_Create.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

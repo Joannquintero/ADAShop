@@ -28,7 +28,7 @@ namespace ADAShop.Web.Controllers
             //ViewBag.Cart = cartService.GetAll("CartItems").FirstOrDefault();
             string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             ViewBag.UserId = userIdClaim;
-            return View(cart!.CartItems != null ? cart!.CartItems : new List<CartItem>());
+            return View(cart! != null ? cart!.CartItems : new List<CartItem>());
         }
 
         [HttpPost(nameof(Insert))]
