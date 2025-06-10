@@ -6,7 +6,6 @@ using ADAShop.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace ADAShop.Web.Controllers
 {

@@ -15,7 +15,7 @@ namespace ADAShop.Api.Repository.Cart
         public async Task<List<Shared.Entities.Cart>> GetAllAsync()
         {
             var queryable = _context.Carts
-                .Include(x => x.CartItems)
+                .Include(x => x.CartItems)!
                 .ThenInclude(x => x.Product)
                  .AsQueryable();
 
