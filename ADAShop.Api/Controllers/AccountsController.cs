@@ -12,7 +12,7 @@ using System.Text;
 namespace ADAShop.Api.Controllers
 {
     [ApiController]
-    [Route("/api/accounts")]
+    [Route("/api/[controller]")]
     public class AccountsController : ControllerBase
     {
         private readonly IUserHelper _userHelper;
