@@ -29,14 +29,15 @@ namespace ADAShop.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
+            ClaimsIdentityModel? identitySession = null;
             if (claimsIdentity != null)
             {
-                ClaimsIdentityModel identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
+                identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
                 ViewBag.ClaimsIdentityViewBag = identitySession;
             }
 
             List<Product> products = await _productService.GetAllAsync();
-            var carts = await _cartService.GetByUserIdAsync(3);
+            var carts = identitySession != null ? await _cartService.GetByUserIdAsync(identitySession!.UserId) : new List<Cart>();
 
             string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             ViewBag.UserId = userIdClaim;
@@ -63,19 +64,6 @@ namespace ADAShop.Web.Controllers
 
                 return View(model);
             }
-        }
-
-        //public async Task<IActionResult> Search(string searchProdName)
-        //{
-        //    List<Product> searchedProducts = await _productService.GetAllAsync();
-        //    searchedProducts = searchedProducts.Where(p => p.Name.Contains(searchProdName)).ToList();
-        //    int id = searchedProducts.Select(p => p.Id).FirstOrDefault();
-        //    return RedirectToAction("Details", "Product", new { id });
-        //}
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

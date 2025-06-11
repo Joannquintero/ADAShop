@@ -85,7 +85,7 @@
                 <ul class="header-links pull-right">
                     @if (claimsIdentity != null)
                     {
-                        <li><a href="/Account/Register"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
+                        <li><a href="/Home/Index"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
                         <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
                     }
                     else
@@ -110,7 +110,7 @@
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="#" class="logo">
+                            <a href="@Url.Action("Index", "Home")" " class="logo">
                                 <img src="./img/logo.png" alt="">
                             </a>
                         </div>
@@ -137,13 +137,13 @@
                                         {
                                             <div class="product-widget">
                                                 <div class="product-img">
-                                                    <img src="~/img/@item.Product!.Image" alt="@item.Product.Name" width="200" />
+                                                    @* <img src="~/img/@item.Product!.Image" alt="@item.Product.Name" width="200" /> *@
+                                                    <img src="~/images/not_available.png" alt="@item.Product!.Name" width="200">
                                                 </div>
                                                 <div class="product-body">
                                                     <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
                                                     <h4 class="product-price"><span class="qty">@item.Quantity x</span>@String.Format("{0:C}", item.Product.Price)</h4>
                                                 </div>
-                                                <button class="delete"><i class="fa fa-close"></i></button>
                                             </div>
                                         }
                                     </div>
@@ -276,11 +276,11 @@
                     <div class="col-md-6 col-xs-6">
                         <div class="footer">
                             <h3 class="footer-title">Acerca de nosotros</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                            <p>Programa para prueba técnica ADA.</p>
                             <ul class="footer-links">
-                                <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
+                                <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Medellín</a></li>
                                 <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i>pruebatecnica@ada.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -289,9 +289,7 @@
                         <div class="footer">
                             <h3 class="footer-title">Servicios</h3>
                             <ul class="footer-links">
-                                <li><a href="#">Mi cuenta</a></li>
-                                <li><a asp-action="GetAll" asp-controller="CartItem">Carrito de compras</a></li>
-                                <li><a href="#">Mis Ordenes</a></li>
+                                <li>Carrito de compras</li>
                             </ul>
                         </div>
                     </div>
@@ -354,12 +352,11 @@
                 },
                 success: function (response)
                 {    
-                    debugger
                     if(response == null){
-                        window.location.href = Host.GetHostName() + '/Account/Login';
+                        window.location.href = Host.GetHostName() + '@Url.Action("Login", "Account")';
                     }
                     else{
-                         window.location.href = Host.GetHostName() + '/Home/Index';
+                         window.location.href = Host.GetHostName() + '@Url.Action("Index", "Home")';
                     }
                 },
                 error: function (xhr, status, error)

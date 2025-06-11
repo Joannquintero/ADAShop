@@ -1,9 +1,11 @@
 ﻿using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
+using ADAShop.Web.Models;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.CartItem;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace ADAShop.Web.Controllers
 {
@@ -21,11 +23,17 @@ namespace ADAShop.Web.Controllers
         [HttpGet(nameof(GetAll))]
         public async Task<IActionResult> GetAll()
         {
-            //TODO: [JAN] - Summary
-            var carts = await _cartService.GetByUserIdAsync(3);
-            var cart = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).LastOrDefault();
+            ClaimsIdentityModel? identitySession = null;
+            var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
+            if (claimsIdentity == null)
+            {
+                return View("Login", "Account");
+            }
 
-            //ViewBag.Cart = cartService.GetAll("CartItems").FirstOrDefault();
+            identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
+            ViewBag.ClaimsIdentityViewBag = identitySession;
+            var carts = await _cartService.GetByUserIdAsync(identitySession.UserId);
+            var cart = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).LastOrDefault();
             string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             ViewBag.UserId = userIdClaim;
             return View(cart! != null ? cart!.CartItems : new List<CartItem>());

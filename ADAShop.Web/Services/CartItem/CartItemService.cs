@@ -16,5 +16,11 @@ namespace ADAShop.Web.Services.CartItem
             var responseHppt = await _repository.Post<Shared.Entities.CartItem, Shared.Entities.CartItem>("api/Carts/InsertCartItem", cartItem);
             return responseHppt.Response!;
         }
+
+        public async Task<Shared.Entities.CartItem> UpdateAsync(Shared.Entities.CartItem cartItem)
+        {
+            var responseHppt = await _repository.Put<Shared.Entities.CartItem, Shared.Entities.CartItem>("api/Carts/UpdateCartItem", cartItem);
+            return responseHppt.Response!;
+        }
     }
 }

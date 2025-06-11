@@ -56,6 +56,7 @@ namespace ADAShop.Web.Controllers
             ViewBag.ClaimsIdentityViewBag = identitySession;
 
             var carts = await _cartService.GetByUserIdAsync(identitySession!.UserId);
+            carts = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).ToList();
             Product product = await _productService.GetByIdAsync(productId);
             if (carts.Count == 0)
             {
@@ -77,28 +78,30 @@ namespace ADAShop.Web.Controllers
             }
             else
             {
-                //Cart cart = cartService.GetAll("CartItems").FirstOrDefault();
-                //CartItem? existedItem = cart.CartItems.FirstOrDefault(c => c.ProductId == id);
-                //if (existedItem != null)
-                //{
-                //    existedItem.Quantity += quantity;
-                //}
-                //else
-                //{
-                //    CartItem cartItem = new CartItem()
-                //    {
-                //        Quantity = quantity,
-                //        ProductId = id,
-                //        Product = product,
-                //        CartId = cart.Id,
-                //        Cart = cart,
-                //    };
-                //    cartItemService.Insert(cartItem);
-                //}
-                //cartItemService.Save();
-                //cartService.Save();
-                //return RedirectToAction("Details", "Product", new { id = id });
-                //return View(carts);
+                var cart = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).FirstOrDefault();
+                if (cart != null)
+                {
+                    CartItem? existedItem = cart.CartItems!.FirstOrDefault(c => c.ProductId == productId);
+                    if (existedItem != null)
+                    {
+                        existedItem.Quantity += quantity;
+                        existedItem.Product = null;
+                        var cartItemResponse = await _cartItemService.UpdateAsync(existedItem);
+                        return Json(cartItemResponse);
+                    }
+                    else
+                    {
+                        CartItem cartItem = new CartItem()
+                        {
+                            Quantity = quantity,
+                            ProductId = productId,
+                            CartId = cart.Id,
+                        };
+
+                        var cartItemResponse = await _cartItemService.CreateAsync(cartItem);
+                        return Json(cartItemResponse);
+                    }
+                }
                 return Json(carts);
             }
         }

@@ -50,5 +50,12 @@ namespace ADAShop.Api.Controllers
             var response = await _cartRepository.CreateCartItemAsync(cartItem);
             return Ok(response);
         }
+
+        [HttpPut(nameof(UpdateCartItem))]
+        public async Task<ActionResult> UpdateCartItem(CartItem cartItem)
+        {
+            var response = await _cartRepository.UpdateItemAsync(cartItem);
+            return Ok(response);
+        }
     }
 }

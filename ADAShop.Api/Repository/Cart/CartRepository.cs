@@ -60,5 +60,12 @@ namespace ADAShop.Api.Repository.Cart
             await _context.SaveChangesAsync();
             return cartItem;
         }
+
+        public async Task<Shared.Entities.CartItem> UpdateItemAsync(Shared.Entities.CartItem cartItem)
+        {
+            _context.CartItems.Update(cartItem);
+            await _context.SaveChangesAsync();
+            return cartItem;
+        }
     }
 }

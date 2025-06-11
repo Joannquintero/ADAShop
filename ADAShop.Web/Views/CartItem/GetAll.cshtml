@@ -2,7 +2,8 @@
 @model IEnumerable<CartItem>
 
 @{
-    ViewData["Title"] = "GetAll";
+    ViewData["Title"] = "Realizar Pedido";
+    var claimsIdentity = (ClaimsIdentityModel)ViewBag.ClaimsIdentityViewBag;
     Layout = "_CartLayout";
 }
 
@@ -175,8 +176,7 @@
     <div id="top-header">
         <div class="container">
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> @User?.Identity?.Name Account</a></li>
+                <li><a href="#"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
                 <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
             </ul>
         </div>
@@ -191,22 +191,12 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
+                        <a href="@Url.Action("Index", "Home")"" class="logo">
                             <img src="/img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
                 <!-- /LOGO -->
-                <!-- SEARCH BAR -->
-                <div class="col-md-6">
-                    <div class="header-search">
-                        <form asp-action="Search" asp-controller="Product" method="post">
-                            <input class="input" name="searchProdName" id="searchProdName" placeholder="Nombre de Producto">
-                            <button type="submit" class="search-btn">Buscar</button>
-                        </form>
-                    </div>
-                </div>
-                <!-- /SEARCH BAR -->
                 <!-- ACCOUNT -->
                 <div class="col-md-3 clearfix">
                     <div class="header-ctn">
