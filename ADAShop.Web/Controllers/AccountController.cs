@@ -1,10 +1,8 @@
 ﻿using ADAShop.Shared.DTOs;
-using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Models;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.ViewModels.Account;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
@@ -27,9 +25,8 @@ namespace ADAShop.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register(bool IsAdmin = false)
+        public IActionResult Register()
         {
-            ViewBag.IsAdmin = IsAdmin;
             return View(new RegisterVM());
         }
 
@@ -74,129 +71,66 @@ namespace ADAShop.Web.Controllers
             }
 
             ModelState.AddModelError("", "Nombre de usuario o Contraseña no válido");
-            return View("login", model);
+            return View("Login", model);
         }
 
+        [HttpGet]
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("ClaimsIdentityModel");
-            return RedirectToAction("login");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login_(RegisterVM model, bool isAdmin)
+        public async Task<IActionResult> Register(RegisterVM model)
         {
-            UserDTO User = new UserDTO
-            {
-                UserName = model.UserName,
-                Identification = model.Document,
-                Name = model.Name,
-                LastName = model.LastName,
-                Address = model.Address,
-                PhoneNumber = model.PhoneNumber,
-                PasswordHash = model.Password,
-                PasswordConfirm = model.ConfirmPassword,
-                UserType = !isAdmin ? UserTypeEnum.User : UserTypeEnum.Admin
-            };
-
             if (ModelState.IsValid)
             {
-                IdentityResult result = new IdentityResult();
-                try
+                UserDTO User = new UserDTO
                 {
-                    //result = await userManager.CreateAsync(applicationUser, applicationUser.PasswordHash);
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException!.Message.StartsWith("Cannot insert duplicate key"))  // if modelstate is valid >> no thing can make excption except duplicate email >> this line for more verification
-                        ModelState.AddModelError(string.Empty, "Already existing email");  // saeed : may cause bugs
-                    else { ModelState.AddModelError(string.Empty, ex.InnerException.Message); }
-                }
+                    UserName = model.UserName,
+                    Identification = model.Document,
+                    Name = model.Name,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    PhoneNumber = model.PhoneNumber,
+                    Password = model.Password,
+                    PasswordConfirm = model.ConfirmPassword,
+                    Email = model.UserName
+                };
 
-                if (result.Succeeded)
+                var response = await _accountService.CreateAsync(User);
+                if (response.Id > 0)
                 {
-                    switch (isAdmin)
+                    var user = await _accountService.GetAsync(model.UserName);
+                    await _accountService.AddToRoleUserAsync(user);
+
+                    LoginDTO loginDTO = new LoginDTO
                     {
-                        //case true:
-                        //    await userManager.AddToRoleAsync(applicationUser, "Admin");
-                        //    return RedirectToAction("admins", "dashbourd");
-                        //    break;
+                        UserName = model.UserName,
+                        Password = model.Password
+                    };
 
-                        //default:
-                        //    await userManager.AddToRoleAsync(applicationUser, "Admin");
-                        //    if (User.IsInRole("Admin"))
-                        //        return RedirectToAction("users", "dashbourd");
-                        //    break;
-                    }
-                    return RedirectToAction("SendForceEmailConfirmationMail", "Mail", new { toEmail = model.UserName });
-                }
-
-                foreach (IdentityError err in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, err.Description);
-                }
-            }
-
-            ViewBag.IsAdmin = isAdmin;
-            return View("register");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM model, bool isAdmin)
-        {
-            UserDTO User = new UserDTO
-            {
-                UserName = model.UserName,
-                Identification = model.Document,
-                Name = model.Name,
-                LastName = model.LastName,
-                Address = model.Address,
-                PhoneNumber = model.PhoneNumber,
-                PasswordHash = model.Password,
-                PasswordConfirm = model.ConfirmPassword,
-                UserType = !isAdmin ? UserTypeEnum.User : UserTypeEnum.Admin
-            };
-
-            if (ModelState.IsValid)
-            {
-                IdentityResult result = new IdentityResult();
-                try
-                {
-                    //result = await userManager.CreateAsync(applicationUser, applicationUser.PasswordHash);
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException!.Message.StartsWith("Cannot insert duplicate key"))  // if modelstate is valid >> no thing can make excption except duplicate email >> this line for more verification
-                        ModelState.AddModelError(string.Empty, "Already existing email");  // saeed : may cause bugs
-                    else { ModelState.AddModelError(string.Empty, ex.InnerException.Message); }
-                }
-
-                if (result.Succeeded)
-                {
-                    switch (isAdmin)
+                    var loginResponse = await _accountService.LoginAsync(loginDTO);
+                    if (loginResponse != null && user != null)
                     {
-                        //case true:
-                        //    await userManager.AddToRoleAsync(applicationUser, "Admin");
-                        //    return RedirectToAction("admins", "dashbourd");
-                        //    break;
+                        ClaimsIdentityModel sessionDataModel = new ClaimsIdentityModel
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            FullName = $"{user.Name} {user.LastName}",
+                            Token = loginResponse!.Token
+                        };
 
-                        //default:
-                        //    await userManager.AddToRoleAsync(applicationUser, "Admin");
-                        //    if (User.IsInRole("Admin"))
-                        //        return RedirectToAction("users", "dashbourd");
-                        //    break;
+                        var serializedRecords = JsonSerializer.Serialize(sessionDataModel);
+                        HttpContext.Session.SetString("ClaimsIdentityModel", serializedRecords);
+                        return RedirectToAction("Index", "Home");
                     }
-                    return RedirectToAction("SendForceEmailConfirmationMail", "Mail", new { toEmail = model.UserName });
                 }
 
-                foreach (IdentityError err in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, err.Description);
-                }
+                return View("Register", model);
             }
-
-            ViewBag.IsAdmin = isAdmin;
-            return View("register");
+            return View("Register", model);
         }
     }
 }

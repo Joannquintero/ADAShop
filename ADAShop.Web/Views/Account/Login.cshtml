@@ -2,7 +2,7 @@
 @model LoginMV
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio de Sesion";
     Layout = null;
 }
 
@@ -66,11 +66,6 @@
                 background-color: #a93226; /* Hover background color (darker red) */
                 border-color: #a93226; /* Hover border color */
             }
-
-        #searchProdName {
-            margin: 0;
-            z-index: 1001; /* Ensure it's above other elements */
-        }
     </style>
 
 </head>
@@ -81,20 +76,12 @@
         <div id="top-header">
             <div class="container">
                 <ul class="header-links pull-right">
-                    @if (User.Identity!.IsAuthenticated)
-                    {
-                        <li><a href="/Account/Register"><i class="fa fa-user-o"></i> Mi Perfil</a></li>
-                        <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Crea tu cuenta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Crea tu cuenta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -114,16 +101,6 @@
                         </div>
                     </div>
                     <!-- /LOGO -->
-                    <!-- SEARCH BAR -->
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form asp-action="Search" asp-controller="Home" method="post">
-                                <input class="input" name="searchProdName" id="searchProdName" placeholder="Nombre de Producto">
-                                <button type="submit" class="search-btn">Buscar</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /SEARCH BAR -->
                 </div>
                 <!-- row -->
             </div>
@@ -140,7 +117,7 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="#">Inicio</a></li>
+                    <li class="active"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -158,6 +135,7 @@
                 <!-- Form Register -->
                 <div class="col-md-12">
                     <div class="row">
+
                         <div class="container">
                             <div class=" text-center mt-5 ">
                                 <h1>Ingresa a tu cuenta</h1>
@@ -168,7 +146,6 @@
                                         <div class="card-body bg-light">
                                             <div class="container">
                                                 <form id="contact-form" asp-action="Login" asp-controller="Account" method="post" class="offset-1 row">
-                                                    <div asp-validation-summary="All" class="text-danger"></div>
                                                     <div class="form-group input-label-div">
                                                         <label asp-for="UserName" class="control-label"></label>
                                                         <input asp-for="UserName" class="form-control" />
@@ -179,13 +156,16 @@
                                                         <input asp-for="Password" class="form-control" />
                                                         <span asp-validation-for="Password" class="text-danger"></span>
                                                     </div>
-                                                    <div class="form-group form-check input-label-div row">
+                                                    <div class="form-group form-check input-label-div row text-center">
                                                         <label class="form-check-label col-7">
                                                             <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                                                         </label>
                                                     </div>
+                                                    <div class="col-md-12 text-center my-2 mb-5" style="margin-bottom: 10px;">
+                                                        ¿No estás registrados?<a asp-action="Register" asp-controller="Account"><strong>¡Regístrate aquí!</strong></a>
+                                                    </div>
                                                     <div class="col-md-12 text-center my-2">
-                                                        <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Regresar</a>
+                                                        <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Cancelar</a>
                                                         <input type="submit" value="Iniciar Sesión" class="btn btn-info btn-send pt-2" />
                                                     </div>
                                                 </form>

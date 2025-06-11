@@ -3,8 +3,6 @@ using ADAShop.Api.Helpers;
 using ADAShop.Shared.DTOs;
 using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,14 +25,12 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpGet(nameof(Get))]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Get(string userName)
         {
-            //return Ok(await _userHelper.GetUserAsync(User.Identity!.Name!));
             return Ok(await _userHelper.GetUserAsync(userName));
         }
 
-        [HttpPost("CreateUser")]
+        [HttpPost(nameof(CreateUser))]
         public async Task<ActionResult> CreateUser([FromBody] UserDTO model)
         {
             User user = model;
@@ -47,7 +43,7 @@ namespace ADAShop.Api.Controllers
             return BadRequest(result.Errors.FirstOrDefault());
         }
 
-        [HttpPost("Login")]
+        [HttpPost(nameof(Login))]
         public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
         {
             var result = await _userHelper.LoginAsync(loginDTO);
@@ -68,6 +64,13 @@ namespace ADAShop.Api.Controllers
             }
 
             return BadRequest("Email o contraseña incorrectos.");
+        }
+
+        [HttpPost(nameof(AddUserToRole))]
+        public async Task<ActionResult> AddUserToRole(User user, string roleName)
+        {
+            await _userHelper.AddUserToRoleAsync(user, roleName);
+            return Ok();
         }
 
         private async Task<TokenDTO> BuildToken(User user)

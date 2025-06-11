@@ -22,5 +22,16 @@ namespace ADAShop.Web.Services.Account
             var responseHppt = await _repository.Post<Shared.DTOs.LoginDTO, Shared.DTOs.TokenDTO>("api/Accounts/Login", loginDTO);
             return responseHppt.Response!;
         }
+
+        public async Task<Shared.DTOs.UserDTO> CreateAsync(Shared.DTOs.UserDTO userDTO)
+        {
+            var responseHppt = await _repository.Post<Shared.DTOs.UserDTO, Shared.DTOs.UserDTO>("api/Accounts/CreateUser", userDTO);
+            return responseHppt.Response!;
+        }
+
+        public async Task AddToRoleUserAsync(Shared.Entities.User user)
+        {
+            var responseHppt = await _repository.Post("api/Accounts/AddUserToRole", user);
+        }
     }
 }

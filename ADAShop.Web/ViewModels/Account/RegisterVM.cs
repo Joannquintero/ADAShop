@@ -46,9 +46,7 @@ namespace ADAShop.Web.ViewModels.Account
 
         [Display(Name = "Confirmar Contraseña")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage = "La contraseña y la confirmación no son iguales.")]
         public string ConfirmPassword { get; set; } = null!;
-
-        public bool IsUser { get; set; }
     }
 }

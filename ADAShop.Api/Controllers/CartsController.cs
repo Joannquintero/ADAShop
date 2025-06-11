@@ -1,7 +1,5 @@
 ﻿using ADAShop.Api.Repository.Cart;
 using ADAShop.Shared.Entities;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers
@@ -26,7 +24,6 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpGet(nameof(GetByUserId))]
-        //[Authorize(Roles = "User")]
         public async Task<ActionResult> GetByUserId(long userId)
         {
             var response = await _cartRepository.GetByUserIdAsync(userId);
@@ -34,7 +31,6 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpGet(nameof(GetById))]
-        //[Authorize(Roles = "User")]
         public async Task<ActionResult> GetById(int id)
         {
             var response = await _cartRepository.GetByIdAsync(id);
@@ -42,8 +38,6 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpPost(nameof(Insert))]
-        //[ValidateAntiForgeryToken]
-        //[Authorize("User")]
         public async Task<ActionResult> Insert(Cart cart)
         {
             var response = await _cartRepository.CreateAsync(cart);
@@ -51,8 +45,6 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpPost(nameof(InsertCartItem))]
-        //[ValidateAntiForgeryToken]
-        //[Authorize("User")]
         public async Task<ActionResult> InsertCartItem(CartItem cartItem)
         {
             var response = await _cartRepository.CreateCartItemAsync(cartItem);

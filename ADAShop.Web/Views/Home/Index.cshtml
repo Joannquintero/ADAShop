@@ -3,7 +3,7 @@
 
 @{
     TempData["Title"] = "ADA Shop";
-    
+
     var claimsIdentity = (ClaimsIdentityModel)ViewBag.ClaimsIdentityViewBag;
     Layout = null;
 }
@@ -118,12 +118,7 @@
                     <!-- /LOGO -->
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
-                        <div class="header-search">
-                            <form asp-action="Search" asp-controller="Home" method="post">
-                                <input class="input" name="searchProdName" id="searchProdName" placeholder="Nombre de Producto">
-                                <button type="submit" class="search-btn">Buscar</button>
-                            </form>
-                        </div>
+                        <div class="header-search"></div>
                     </div>
                     <!-- /SEARCH BAR -->
                     <!-- ACCOUNT -->
@@ -191,7 +186,7 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="#">Inicio</a></li>
+                    <li class="active"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -219,12 +214,10 @@
                                         {
                                             <!-- product -->
                                             <div class="product">
-                                                <a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">
-                                                    <div class="product-img">
-                                                        @* <img src="./img/@prod.Image" alt="@image" height="200"> *@
-                                                        <img src="~/images/not_available.png" alt="@prod.Image" height="200">
-                                                    </div>
-                                                </a>
+                                                <div class="product-img">
+                                                    @* <img src="./img/@prod.Image" alt="@image" height="200"> *@
+                                                    <img src="~/images/not_available.png" alt="@prod.Image" height="200">
+                                                </div>
                                                 <div class="product-body">
                                                     @{
                                                         string categoryName = prod.Category != null ? prod.Category.Name : string.Empty;
@@ -232,17 +225,23 @@
                                                     <p class="product-category">@categoryName</p>
                                                     <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">@prod.Name</a></h3>
                                                     <h4 class="product-price">@String.Format("{0:C}", prod.Price)</h4>
-                                                    <div class="product-btns">
-                                                        <button class="quick-view">
-                                                            <a asp-action="Details" asp-controller="Product" asp-route-id="@prod.Id">
-                                                                <i class="fa fa-eye"></i>
-                                                                <span class="tooltipp">Vista rápida</span>
-                                                            </a>
-                                                        </button>
+
+                                                    <!-- aside Widget -->
+                                                    <div class="aside">
+                                                        <h5 class="aside-title">@(prod.Stock > 0 ? $"{prod.Stock} disponible(s)" : "Agotado") </h5>
+                                                        <span>Cantidad</span>
+                                                        <div class="price-filter">
+                                                            <div class="input-number price-max">
+                                                                <input id="price-max-@prod.Id" type="number" value="1" disabled>
+                                                                <span class="qty-up">+</span>
+                                                                <span class="qty-down">-</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <!-- /aside Widget -->
                                                 </div>
                                                 <div class="add-to-cart">
-                                                    <a asp-action="AddToCart" asp-controller="Cart" asp-route-productId="@prod.Id">
+                                                    <a href="javascript:void(0);" onclick="AddToCart(@prod.Id)">
                                                         <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
                                                     </a>
                                                 </div>
@@ -321,18 +320,18 @@
     </footer>
     <!-- /FOOTER -->
     <!-- jQuery Plugins -->
-    <script src="js/jquery.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/slick.min.js"></script>
     <script src="js/nouislider.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script>
-
+    <script src="~/js/host.js"></script>
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
+    <script type="text/javascript">
         $(function () {
             var productsNames = @Json.Serialize(@ViewBag.AllProductsNames);
 
@@ -341,6 +340,34 @@
                 minLength: 1
             });
         });
+
+          function AddToCart(id)
+         { 
+            let maxInput = parseInt(document.getElementById('price-max-' + id).value);
+            $.ajax({
+                url: '/Cart/AddtoCart',
+                type: 'GET',
+                traditional: true,
+                data: {
+                    productId : id,
+                    quantity: maxInput ,
+                },
+                success: function (response)
+                {    
+                    debugger
+                    if(response == null){
+                        window.location.href = Host.GetHostName() + '/Account/Login';
+                    }
+                    else{
+                         window.location.href = Host.GetHostName() + '/Home/Index';
+                    }
+                },
+                error: function (xhr, status, error)
+                {
+                    console.error("AJAX request failed:", status, error);
+                }
+            });
+         }
     </script>
 </body>
 </html>

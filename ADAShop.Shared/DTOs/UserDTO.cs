@@ -1,5 +1,4 @@
-﻿using ADAShop.Shared.Emuns;
-using ADAShop.Shared.Entities;
+﻿using ADAShop.Shared.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace ADAShop.Shared.DTOs
@@ -18,7 +17,5 @@ namespace ADAShop.Shared.DTOs
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe tener entre {2} y {1} carácteres.")]
         public string PasswordConfirm { get; set; } = null!;
-
-        public UserTypeEnum? UserType { get; set; }
     }
 }

@@ -43,13 +43,13 @@ namespace ADAShop.Web.Controllers
             return View(cart);
         }
 
-        public async Task<IActionResult> AddtoCart(int productId, int quantity = 1)
+        public async Task<JsonResult> AddtoCart(int productId, int quantity)
         {
             ClaimsIdentityModel? identitySession = null;
             var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
             if (claimsIdentity == null)
             {
-                return RedirectToAction("Login", "Account");
+                return Json(null);
             }
 
             identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
@@ -73,7 +73,7 @@ namespace ADAShop.Web.Controllers
                 };
 
                 var cartItemResponse = await _cartItemService.CreateAsync(cartItem);
-                return RedirectToAction("Index", "Home");
+                return Json(cartItemResponse);
             }
             else
             {
@@ -98,7 +98,8 @@ namespace ADAShop.Web.Controllers
                 //cartItemService.Save();
                 //cartService.Save();
                 //return RedirectToAction("Details", "Product", new { id = id });
-                return View(carts);
+                //return View(carts);
+                return Json(carts);
             }
         }
     }
