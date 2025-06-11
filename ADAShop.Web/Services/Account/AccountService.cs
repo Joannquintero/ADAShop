@@ -1,4 +1,5 @@
-﻿using ADAShop.Web.Repository;
+﻿using ADAShop.Shared.DTOs;
+using ADAShop.Web.Repository;
 
 namespace ADAShop.Web.Services.Account
 {
@@ -29,9 +30,15 @@ namespace ADAShop.Web.Services.Account
             return responseHppt.Response!;
         }
 
-        public async Task AddToRoleUserAsync(Shared.Entities.User user)
+        public async Task AddToRoleUserAsync(UserRoleDTO userRoleDTO)
         {
-            var responseHppt = await _repository.Post("api/Accounts/AddUserToRole", user);
+            var responseHppt = await _repository.Post("api/Accounts/AddUserToRole", userRoleDTO);
+        }
+
+        public async Task<bool> IsUserInRoleAsync(UserRoleDTO userRoleDTO)
+        {
+            var responseHppt = await _repository.Post<UserRoleDTO, bool>("api/Accounts/IsUserInRole", userRoleDTO);
+            return responseHppt.Response;
         }
     }
 }

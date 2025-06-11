@@ -16,8 +16,8 @@ namespace ADAShop.Web.ViewModels.Product
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Descripción")]
         public string? Description { get; set; }
-   
-        public string ImageUrl { get; set; } = "wwwroot/images/sfdsdf";  // default image
+
+        public string? ImageUrl { get; set; }
 
         [NotMapped]
         [Display(Name = "Fotografía")]

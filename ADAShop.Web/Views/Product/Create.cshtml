@@ -12,7 +12,7 @@
     <div class=" text-center mt-5 ">
         <h1>Agregar Producto</h1>
     </div>
-    <div class="row ">
+    <div class="row">
         <div class="col-lg-7 mx-auto">
             <div class="card mt-2 mx-auto p-4 bg-light">
                 <div class="card-body bg-light">
@@ -68,24 +68,23 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label asp-for="Description" class="control-label"></label>
-                                            <textarea asp-for="Description" class="form-control" />
+                                            <input asp-for="Description" class="form-control" />
                                             <span asp-validation-for="Description" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-12 text-center my-2">
-                                        <input type="submit" value="Guardar" class="btn btn-success btn-send  pt-2 btn-block" />
+                                        <input type="submit" value="Guardar" class="btn btn-info btn-send pt-2" />
                                     </div>
                                 </div>
                             </div>
                         </form>
                         <div class="text-center my-3">
-                            <a asp-action="products" asp-controller="dashbourd" class="btn btn-info">Regresar</a>
+                            <a asp-action="products" asp-controller="dashboard" class="btn btn-danger btn-send">Cancelar</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- /.8 -->
-
         </div>
         <!-- /.row-->
     </div>

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         private readonly IOrdenService _ordenService;

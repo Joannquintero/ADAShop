@@ -42,5 +42,17 @@ namespace ADAShop.Web.Services.Product
             model.categories = responseCategories.Response;
             return model;
         }
+
+        public async Task<Shared.Entities.Product> CreateAsync(Shared.Entities.Product product)
+        {
+            var responseHppt = await _repository.Post<Shared.Entities.Product, Shared.Entities.Product>("api/Products/Insert", product);
+            return responseHppt.Response!;
+        }
+
+        public async Task<Shared.Entities.Product> UpdateAsync(Shared.Entities.Product product)
+        {
+            var responseHppt = await _repository.Post<Shared.Entities.Product, Shared.Entities.Product>("api/Products/Update", product);
+            return responseHppt.Response!;
+        }
     }
 }

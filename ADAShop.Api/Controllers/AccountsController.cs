@@ -1,5 +1,4 @@
-﻿using ADAShop.Api.Data;
-using ADAShop.Api.Helpers;
+﻿using ADAShop.Api.Helpers;
 using ADAShop.Shared.DTOs;
 using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
@@ -18,7 +17,7 @@ namespace ADAShop.Api.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
 
-        public AccountsController(IUserHelper userHelper, IConfiguration configuration, Context context)
+        public AccountsController(IUserHelper userHelper, IConfiguration configuration)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -28,6 +27,14 @@ namespace ADAShop.Api.Controllers
         public async Task<ActionResult> Get(string userName)
         {
             return Ok(await _userHelper.GetUserAsync(userName));
+        }
+
+        [HttpPost(nameof(IsUserInRole))]
+        public async Task<ActionResult> IsUserInRole(UserRoleDTO userRoleDTO)
+        {
+            var user = await _userHelper.GetUserAsync(userRoleDTO.user!.UserName!);
+            bool isUserInRole = await _userHelper.IsUserInRoleAsync(user, userRoleDTO.roleName!);
+            return Ok(isUserInRole);
         }
 
         [HttpPost(nameof(CreateUser))]
@@ -67,9 +74,9 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpPost(nameof(AddUserToRole))]
-        public async Task<ActionResult> AddUserToRole(User user, string roleName)
+        public async Task<ActionResult> AddUserToRole(UserRoleDTO userRoleDTO)
         {
-            await _userHelper.AddUserToRoleAsync(user, roleName);
+            await _userHelper.AddUserToRoleAsync(userRoleDTO.user!, userRoleDTO.roleName!);
             return Ok();
         }
 

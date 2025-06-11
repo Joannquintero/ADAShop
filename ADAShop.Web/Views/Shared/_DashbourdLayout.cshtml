@@ -33,14 +33,6 @@
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-        <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
@@ -56,13 +48,12 @@
                         {
                             <h6 class="mb-0">@User.Identity.Name</h6>
                             <span>Admin</span>
-
                         }
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a asp-action="orders" asp-controller="dashbourd" class="nav-item nav-link dashbourd-nav-item" id="dashbourdOrder"><i class="fa fa-truck me-2"></i>Órdenes</a>
-                    <a asp-action="products" asp-controller="dashbourd" class="nav-item nav-link dashbourd-nav-item" id="dashbourdProducts"><i class="fa fa-laptop me-2"></i>Productos</a>  
+                    <a asp-action="orders" asp-controller="dashboard" class="nav-item nav-link dashbourd-nav-item" id="dashbourdOrder"><i class="fa fa-truck me-2"></i>Órdenes</a>
+                    <a asp-action="products" asp-controller="dashboard" class="nav-item nav-link dashbourd-nav-item" id="dashbourdProducts"><i class="fa fa-laptop me-2"></i>Productos</a>  
                 </div>
             </nav>
         </div>

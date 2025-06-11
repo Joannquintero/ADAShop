@@ -1,4 +1,5 @@
 ﻿using ADAShop.Shared.DTOs;
+using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Models;
 using ADAShop.Web.Services.Account;
@@ -65,7 +66,19 @@ namespace ADAShop.Web.Controllers
 
                         var serializedRecords = JsonSerializer.Serialize(sessionDataModel);
                         HttpContext.Session.SetString("ClaimsIdentityModel", serializedRecords);
-                        return RedirectToAction("Index", "Home");
+
+                        UserRoleDTO userRoleDTO = new UserRoleDTO
+                        {
+                            user = user,
+                            roleName = UserTypeEnum.User.ToString()
+                        };
+                        var isUserInRolUser = await _accountService.IsUserInRoleAsync(userRoleDTO);
+                        if (isUserInRolUser)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+
+                        return RedirectToAction("Orders", "Dashboard");
                     }
                 }
             }
@@ -103,7 +116,12 @@ namespace ADAShop.Web.Controllers
                 if (response.Id > 0)
                 {
                     var user = await _accountService.GetAsync(model.UserName);
-                    await _accountService.AddToRoleUserAsync(user);
+                    UserRoleDTO userRoleDTO = new UserRoleDTO
+                    {
+                        user = user,
+                        roleName = UserTypeEnum.User.ToString()
+                    };
+                    await _accountService.AddToRoleUserAsync(userRoleDTO);
 
                     LoginDTO loginDTO = new LoginDTO
                     {

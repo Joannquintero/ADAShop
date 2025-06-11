@@ -1,4 +1,6 @@
-﻿namespace ADAShop.Web.Services.Account
+﻿using ADAShop.Shared.DTOs;
+
+namespace ADAShop.Web.Services.Account
 {
     public interface IAccountService
     {
@@ -8,6 +10,8 @@
 
         Task<Shared.DTOs.UserDTO> CreateAsync(Shared.DTOs.UserDTO userDTO);
 
-        Task AddToRoleUserAsync(Shared.Entities.User user);
+        Task AddToRoleUserAsync(UserRoleDTO userRoleDTO);
+
+        Task<bool> IsUserInRoleAsync(UserRoleDTO userRoleDTO);
     }
 }

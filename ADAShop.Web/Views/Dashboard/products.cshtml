@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="container">
     <p class="my-4">
-        <a class="btn btn-primary" asp-action="insert" asp-controller="product">Agregar producto</a>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Agregar producto</a>
     </p>
     <section class="intro">
         <div class="bg-image h-100" style="background-color: #f5f7fa;">
@@ -65,7 +65,6 @@
                                                     <th scope="col">Categoría</th>
                                                     <th scope="col"></th>
                                                     <th scope="col"></th>
-                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -77,10 +76,12 @@
                                                         <td>@String.Format("{0:C}", p.Price)</td>
                                                         <td>@p.Stock</td>
                                                         <td>@(p.Category != null ? p.Category.Name : "")</td>
-                                                        <td><img src="~/img/@p.Image" alt="@p.Image" width="50px" /></td>
+                                                        @{
+                                                            string image = p.Image != null ? p.Image : "not_available.png";
+                                                        }
+                                                        <td><img src="~/img/@image" alt="@image" width="50px" /></td>
                                                         <td>
                                                             <a asp-action="update" asp-route-id="@p.Id" asp-controller="product" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                            <a asp-action="delete" asp-route-id="@p.Id" asp-controller="product" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                                                         </td>
                                                     </tr>
                                                 }

@@ -25,6 +25,8 @@ namespace ADAShop.Shared.Entities
 
         public string? Image { get; set; }
 
+        public int? CategoryId { get; set; }
+
         public Category? Category { get; set; }
 
         public List<CartItem>? CartItems { get; set; }

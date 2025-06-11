@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace ADAShop.Api.Controllers
 {
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/[controller]")]
     public class CartsController : ControllerBase
     {
@@ -16,7 +15,6 @@ namespace ADAShop.Api.Controllers
             _cartRepository = cartRepository;
         }
 
-        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAll()
         {
             var response = await _cartRepository.GetAllAsync();
