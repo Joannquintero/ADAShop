@@ -21,7 +21,8 @@ namespace ADAShop.Shared.Entities
         public decimal Price { get; set; }
 
         [Required]
-        public float Stock { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Stock { get; set; }
 
         public string? Image { get; set; }
 

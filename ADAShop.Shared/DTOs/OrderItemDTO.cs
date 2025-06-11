@@ -15,7 +15,7 @@ namespace ADAShop.Shared.DTOs
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
-        public float Stock { get; set; }
+        public decimal Stock { get; set; }
 
         public int CartId { get; set; }
     }

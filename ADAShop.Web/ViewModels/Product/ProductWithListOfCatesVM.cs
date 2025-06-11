@@ -30,7 +30,7 @@ namespace ADAShop.Web.ViewModels.Product
 
         [Display(Name = "Cantidad")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public float Quantity { get; set; } = 0;
+        public decimal Quantity { get; set; } = 0;
 
         [ForeignKey("Category")]
         [Display(Name = "Categoría")]

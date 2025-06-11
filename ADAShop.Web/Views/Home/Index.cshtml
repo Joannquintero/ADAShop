@@ -86,8 +86,8 @@
                 <ul class="header-links pull-right">
                     @if (claimsIdentity != null)
                     {
-                        <li><a href="/Home/Index"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
-                        <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
+                        <li><a href="@Url.Action("Logout", "Account")"><i class="fas fa-door-open"></i> Salir</a></li>
                     }
                     else
                     {
@@ -145,7 +145,7 @@
                                                 </div>
                                                 <div class="product-body">
                                                     <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
-                                                    <h4 class="product-price"><span class="qty">@item.Quantity x</span>@String.Format("{0:C}", item.Product.Price)</h4>
+                                                    <h4 class="product-price"><span class="qty">@(Convert.ToInt64(item.Quantity)) x</span>@String.Format("{0:C}", item.Product.Price)</h4>
                                                 </div>
                                             </div>
                                         }
@@ -233,7 +233,7 @@
 
                                                     <!-- aside Widget -->
                                                     <div class="aside">
-                                                        <h5 class="aside-title">@(prod.Stock > 0 ? $"{prod.Stock} disponible(s)" : "Agotado") </h5>
+                                                        <h5 class="aside-title">@((Convert.ToInt64(prod.Stock)) > 0 ? $"{(Convert.ToInt64(prod.Stock))} disponible(s)" : "Agotado") </h5>
                                                         <span>Cantidad</span>
                                                         <div class="price-filter">
                                                             <div class="input-number price-max">

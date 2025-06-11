@@ -5,6 +5,7 @@
     ViewData["Title"] = "Realizar Pedido";
     var claimsIdentity = (ClaimsIdentityModel)ViewBag.ClaimsIdentityViewBag;
     Layout = "_CartLayout";
+    bool stockAvailable = true;
 }
 
 <style>
@@ -176,7 +177,7 @@
     <div id="top-header">
         <div class="container">
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
+                <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
                 <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
             </ul>
         </div>
@@ -226,7 +227,7 @@
                                             </div>
                                             <div class="product-body">
                                                 <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item?.Product?.Id">@item?.Product?.Name</a></h3>
-                                                <h4 class="product-price"><span class="qty">@item!.Quantity x</span>$ @item?.Product?.Price</h4>
+                                                <h4 class="product-price"><span class="qty">@(Convert.ToInt64(item!.Quantity)) x</span>$ @item?.Product?.Price</h4>
                                             </div>
                                             <button class="delete"><i class="fa fa-close"></i></button>
                                         </div>
@@ -321,6 +322,7 @@
                 <th>Cantidad</th>
                 <th>Precio Unitario</th>
                 <th>Precio total</th>
+                <th>Disponibles</th>
                 <th>Nombre del producto</th>
                 <th></th>
                 <th></th>
@@ -329,33 +331,26 @@
         <tbody>
             @foreach (var item in Model!)
             {
-                <tr>
-                    <td class="vertical-align-middle">@item.Quantity</td>
+                string textColor = "";
+                var calculateStock = item.Product!.Stock - item.Quantity;
+                    if (calculateStock <= 0)
+                {
+                    textColor = "color: red;";
+                        stockAvailable = false;
+                    }
+
+                <tr style="@textColor">
+                    <td class="vertical-align-middle">@(Convert.ToInt64(@item.Quantity))</td>
                     <td class="vertical-align-middle">@String.Format("{0:C}", item.Product!.Price)</td>
                     <td class="vertical-align-middle">@String.Format("{0:C}", item.Product.Price * item.Quantity)</td>
+                    <td class="vertical-align-middle">@(Convert.ToInt64(item.Product!.Stock)) Und(s)</td>
                     <td class="vertical-align-middle">@item.Product.Name</td>
-                      @{
-                          string image = item.Product.Image != null ? item.Product.Image : "not_available.png";
-                       }
-                    <td class="vertical-align-middle"><img src="./img/@image" alt="@item.Product.Name" width="100" /></td>
+                        @{
+                            string image = item.Product.Image != null ? item.Product.Image : "not_available.png";
+                        }
+                    <td class="vertical-align-middle"><img src="./img/@image" alt="@image" width="100" /></td>
                     <td class="vertical-align-middle">
-                        <div id="myModal-@item.Id" class="modal fade">
-                            <div class="modal-dialog modal-confirm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">¡Importante!</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>¿Seguro que desea eliminar estos registros?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a asp-action="GetAll" asp-controller="CartItem" data-dismiss="modal" class="btn btn-text">Cancelar</a>
-                                        <a asp-action="Delete" asp-controller="CartItem" asp-route-id="@item.CartId" class="btn btn-danger btn-text">Quitar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    
                     </td>
                 </tr>
             }
@@ -370,10 +365,14 @@
         }
         <h3>SUBTOTAL: @String.Format("{0:C}", subTotal)</h3>
     </div>
+    @if (!stockAvailable)
+        {
+           <h3 style="color: red; margin-bottom: 20px;">Uno o mas productos se encuentran fuera de inventario. ¿Realmente desea comprar el producto con la cantidad disponible?</h3> 
+        }
 
-    <div class="cart-btns container text-center">
-        <a class="btn btn-success checkout-btn" asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.FirstOrDefault()?.Id" asp-route-userId="@ViewBag?.UserId">Pagar ahora <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
+     <div class="cart-btns container text-center">
+             <a class="btn btn-success checkout-btn" asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model?.FirstOrDefault()?.Id" asp-route-userId="@ViewBag?.UserId">Pagar ahora <i class="fa fa-arrow-circle-right"></i></a>   
+            </div>
     }
     else
     {

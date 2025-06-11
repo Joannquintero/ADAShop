@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADAShop.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250611071410_InitialDB")]
-    partial class InitialDB
+    [Migration("20250611121433_CompletedDBMigration")]
+    partial class CompletedDBMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,8 +170,8 @@ namespace ADAShop.Api.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("Stock")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Stock")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

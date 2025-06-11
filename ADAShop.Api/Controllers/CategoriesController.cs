@@ -1,5 +1,4 @@
 ﻿using ADAShop.Api.Repository.Category;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers
