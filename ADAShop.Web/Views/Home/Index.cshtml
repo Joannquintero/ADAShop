@@ -138,8 +138,10 @@
                                         {
                                             <div class="product-widget">
                                                 <div class="product-img">
-                                                    @* <img src="~/img/@item.Product!.Image" alt="@item.Product.Name" width="200" /> *@
-                                                    <img src="~/images/not_available.png" alt="@item.Product!.Name" width="200">
+                                                    @{
+                                                        string? image = item.Product!.Image != null ? item.Product!.Image : "not_available.png";
+                                                    }
+                                                    <img src="~/img/@image" alt="@image" width="200" />
                                                 </div>
                                                 <div class="product-body">
                                                     <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item.Product.Id">@item.Product.Name</a></h3>
@@ -155,7 +157,7 @@
                                     </div>
                                     <div class="cart-btns">
                                         <a asp-action="GetAll" asp-controller="CartItem">Ver carrito <i class="fa fa-arrow-circle-right"></i></a>
-                                        <a asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Limpiar <i class="fa fa-archive"></i></a>
+                                        <a asp-action="CancelCart" asp-controller="Cart" asp-route-cartId="@Model.Cart.Id" asp-route-userId="@ViewBag.UserId">Limpiar <i class="fa fa-archive"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -216,8 +218,10 @@
                                             <!-- product -->
                                             <div class="product">
                                                 <div class="product-img">
-                                                    @* <img src="./img/@prod.Image" alt="@image" height="200"> *@
-                                                    <img src="~/images/not_available.png" alt="@prod.Image" height="200">
+                                                    @{
+                                                        string image = prod.Image != null ? prod.Image : "not_available.png";
+                                                    }
+                                                    <img src="./img/@image" alt="@image" height="200">
                                                 </div>
                                                 <div class="product-body">
                                                     @{

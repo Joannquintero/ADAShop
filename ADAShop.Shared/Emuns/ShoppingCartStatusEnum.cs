@@ -3,6 +3,7 @@
     public enum ShoppingCartStatusEnum
     {
         NEW,
-        COMPLETED
+        COMPLETED,
+        CANCELED
     }
 }

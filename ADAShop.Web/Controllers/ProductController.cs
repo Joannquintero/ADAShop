@@ -27,7 +27,6 @@ namespace ADAShop.Web.Controllers
             return View(product);
         }
 
-        //TODO: [JAN] - Summary
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {

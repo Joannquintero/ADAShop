@@ -1,4 +1,5 @@
-﻿using ADAShop.Shared.Emuns;
+﻿using ADAShop.Shared.DTOs;
+using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Models;
 using ADAShop.Web.Services.Account;
@@ -34,6 +35,25 @@ namespace ADAShop.Web.Controllers
         {
             var carts = await _cartService.GetByUserIdAsync(userId);
             return View(carts);
+        }
+
+        public async Task<IActionResult> CancelCart(int cartId)
+        {
+            ClaimsIdentityModel? identitySession = null;
+            var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
+            if (claimsIdentity == null)
+            {
+                return Json("Error");
+            }
+
+            identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
+            ViewBag.ClaimsIdentityViewBag = identitySession;
+
+            var cartResponse = await _cartService.GetByIdAsync(cartId);
+            cartResponse.CartItems = null;
+            cartResponse.Status = ShoppingCartStatusEnum.CANCELED.ToString();
+            var cancel = await _cartService.UpdateAsync(cartResponse);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

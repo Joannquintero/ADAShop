@@ -7,5 +7,7 @@
         Task<Shared.Entities.Cart> CreateAsync(Shared.Entities.Cart cart);
 
         Task<Shared.Entities.Cart> GetByIdAsync(int id);
+
+        Task<Shared.Entities.Cart> UpdateAsync(Shared.Entities.Cart cart);
     }
 }

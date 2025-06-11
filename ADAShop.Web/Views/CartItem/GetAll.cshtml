@@ -219,8 +219,10 @@
                                     {
                                         <div class="product-widget">
                                             <div class="product-img">
-                                                @* <img src="~/img/@item?.Product?.Image" alt="@item?.Product?.Name" width="200" /> *@
-                                                <img src="/images/not_available.png" alt="@item?.Product?.Name" width="200" />
+                                                @{
+                                                      string? image = item?.Product?.Image != null ? item?.Product?.Image : "not_available.png";
+                                                   }
+                                                <img src="./img/@image" alt="@image" width="200" />
                                             </div>
                                             <div class="product-body">
                                                 <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item?.Product?.Id">@item?.Product?.Name</a></h3>
@@ -237,6 +239,7 @@
                                 </div>
                                 <div class="cart-btns">
                                     <a asp-action="GetAll" asp-controller="CartItem">Ver Carrito</a>
+                                    <a asp-action="CancelCart" asp-controller="Cart" asp-route-cartId="@Model.FirstOrDefault()!.CartId" asp-route-userId="@ViewBag.UserId">Limpiar <i class="fa fa-archive"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -331,12 +334,11 @@
                     <td class="vertical-align-middle">@String.Format("{0:C}", item.Product!.Price)</td>
                     <td class="vertical-align-middle">@String.Format("{0:C}", item.Product.Price * item.Quantity)</td>
                     <td class="vertical-align-middle">@item.Product.Name</td>
-                    @* <td class="vertical-align-middle"><img src="~/img/@item.Product.Image" alt="@item.Product.Name" width="100" /></td> *@
-                    <td class="vertical-align-middle"><img src="~/images/not_available.png" alt="@item.Product.Name" width="100" /></td>
+                      @{
+                          string image = item.Product.Image != null ? item.Product.Image : "not_available.png";
+                       }
+                    <td class="vertical-align-middle"><img src="./img/@image" alt="@item.Product.Name" width="100" /></td>
                     <td class="vertical-align-middle">
-                        <div class="text-center">
-                            <a href="#myModal-@item.Id" class="trigger-btn btn btn-danger" data-toggle="modal">Quitar</a>
-                        </div>
                         <div id="myModal-@item.Id" class="modal fade">
                             <div class="modal-dialog modal-confirm">
                                 <div class="modal-content">
@@ -349,7 +351,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <a asp-action="GetAll" asp-controller="CartItem" data-dismiss="modal" class="btn btn-text">Cancelar</a>
-                                        <a asp-action="Delete" asp-controller="CartItem" asp-route-id="@item.Id" class="btn btn-danger btn-text">Quitar</a>
+                                        <a asp-action="Delete" asp-controller="CartItem" asp-route-id="@item.CartId" class="btn btn-danger btn-text">Quitar</a>
                                     </div>
                                 </div>
                             </div>
