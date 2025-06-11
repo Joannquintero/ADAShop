@@ -14,7 +14,7 @@ namespace ADAShop.Shared.Entities
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sin descripción")]
         [MaxLength(500)]
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         [Required]

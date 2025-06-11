@@ -10,10 +10,10 @@ namespace ADAShop.Web.ViewModels.Account
         [MinLength(3, ErrorMessage = "El campo {0} debe tener al menos {1} caractéres.")]
         public string UserName { get; set; } = null!;
 
-        [Display(Name = "Identificación")]
+        [Display(Name = "N. Documento")]
         [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string? Identification { get; set; } = null!;
+        public string? Document { get; set; } = null!;
 
         [Display(Name = "Nombre")]
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]

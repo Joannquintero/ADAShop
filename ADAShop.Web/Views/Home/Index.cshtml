@@ -2,7 +2,9 @@
 @model ADAShop.Web.ViewModels.Home.ProdCatCartVM
 
 @{
-    ViewData["Title"] = "Home Page";
+    TempData["Title"] = "ADA Shop";
+    
+    var claimsIdentity = (ClaimsIdentityModel)ViewBag.ClaimsIdentityViewBag;
     Layout = null;
 }
 
@@ -81,10 +83,9 @@
         <div id="top-header">
             <div class="container">
                 <ul class="header-links pull-right">
-                    @if (User.Identity!.IsAuthenticated)
+                    @if (claimsIdentity != null)
                     {
-                        <li><a href="#"><i class="fa fa-dollar"></i> COP</a></li>
-                        <li><a href="/Account/Register"><i class="fa fa-user-o"></i> My Account</a></li>
+                        <li><a href="/Account/Register"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
                         <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
                     }
                     else
@@ -93,7 +94,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Crea tu cuenta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="login">Ingresar</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a>
                         </li>
                     }
                 </ul>

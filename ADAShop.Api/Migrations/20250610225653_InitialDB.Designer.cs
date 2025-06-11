@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADAShop.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250610204021_InitialDB")]
+    [Migration("20250610225653_InitialDB")]
     partial class InitialDB
     {
         /// <inheritdoc />
@@ -156,7 +156,6 @@ namespace ADAShop.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 

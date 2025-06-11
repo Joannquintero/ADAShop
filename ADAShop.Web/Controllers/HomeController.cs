@@ -6,6 +6,7 @@ using ADAShop.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace ADAShop.Web.Controllers
 {
@@ -27,6 +28,13 @@ namespace ADAShop.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
+            if (claimsIdentity != null)
+            {
+                ClaimsIdentityModel identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
+                ViewBag.ClaimsIdentityViewBag = identitySession;
+            }
+
             List<Product> products = await _productService.GetAllAsync();
             var carts = await _cartService.GetByUserIdAsync(3);
 

@@ -1,10 +1,12 @@
 ﻿using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
+using ADAShop.Web.Models;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.CartItem;
 using ADAShop.Web.Services.Product;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace ADAShop.Web.Controllers
 {
@@ -43,13 +45,22 @@ namespace ADAShop.Web.Controllers
 
         public async Task<IActionResult> AddtoCart(int productId, int quantity = 1)
         {
-            //TODO: [JAN] - Summary
-            var carts = await _cartService.GetByUserIdAsync(3);
+            ClaimsIdentityModel? identitySession = null;
+            var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
+            if (claimsIdentity == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
+            ViewBag.ClaimsIdentityViewBag = identitySession;
+
+            var carts = await _cartService.GetByUserIdAsync(identitySession!.UserId);
             Product product = await _productService.GetByIdAsync(productId);
             if (carts.Count == 0)
             {
                 Cart cart = new Cart();
-                var user = await _accountService.GetAsync("johns");
+                var user = await _accountService.GetAsync(identitySession!.UserName!);
                 cart.UserId = user.Id;
                 cart.Status = ShoppingCartStatusEnum.NEW.ToString();
 

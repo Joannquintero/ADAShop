@@ -34,6 +34,7 @@ builder.Services.AddDbContext<Context>(
     });
 
 builder.Services.AddTransient<SeedDb>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IGenericExecuteSP, GenericExecuteSP>();
 builder.Services.AddScoped<IOrderItemTransactions, OrderItemTransactions>();

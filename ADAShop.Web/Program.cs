@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5238") });
 builder.Services.AddScoped<IRepository, Repository>();
 
@@ -38,6 +39,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

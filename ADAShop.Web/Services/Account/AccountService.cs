@@ -10,9 +10,16 @@ namespace ADAShop.Web.Services.Account
         {
             _repository = repository;
         }
+
         public async Task<Shared.Entities.User> GetAsync(string userName)
         {
-            var responseHppt = await _repository.Get<Shared.Entities.User> ($"api/Accounts/Get?userName={userName}");
+            var responseHppt = await _repository.Get<Shared.Entities.User>($"api/Accounts/Get?userName={userName}");
+            return responseHppt.Response!;
+        }
+
+        public async Task<Shared.DTOs.TokenDTO> LoginAsync(Shared.DTOs.LoginDTO loginDTO)
+        {
+            var responseHppt = await _repository.Post<Shared.DTOs.LoginDTO, Shared.DTOs.TokenDTO>("api/Accounts/Login", loginDTO);
             return responseHppt.Response!;
         }
     }

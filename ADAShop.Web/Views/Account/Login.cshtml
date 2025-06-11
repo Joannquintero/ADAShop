@@ -1,5 +1,5 @@
 ﻿@using ADAShop.Web.ViewModels.Account
-@model RegisterVM
+@model LoginMV
 
 @{
     ViewData["Title"] = "Home Page";
@@ -83,8 +83,7 @@
                 <ul class="header-links pull-right">
                     @if (User.Identity!.IsAuthenticated)
                     {
-                        <li><a href="#"><i class="fa fa-dollar"></i> COP</a></li>
-                        <li><a href="/Account/Register"><i class="fa fa-user-o"></i> My Account</a></li>
+                        <li><a href="/Account/Register"><i class="fa fa-user-o"></i> Mi Perfil</a></li>
                         <li><a href="/account/logout"><i class="fas fa-door-open"></i> Salir</a></li>
                     }
                     else
@@ -93,7 +92,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Crea tu cuenta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="login">Ingresar</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a>
                         </li>
                     }
                 </ul>
@@ -161,74 +160,33 @@
                     <div class="row">
                         <div class="container">
                             <div class=" text-center mt-5 ">
-                                <h1>Crea tu cuenta</h1>
+                                <h1>Ingresa a tu cuenta</h1>
                             </div>
                             <div class="row ">
                                 <div class="col-lg-7 mx-auto">
                                     <div class="card mt-2 mx-auto p-4 bg-light">
                                         <div class="card-body bg-light">
                                             <div class="container">
-                                                <form id="contact-form" role="form" asp-action="Register" asp-controller="Account">
-                                                    <div class="controls">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="Document" class="control-label"></label>
-                                                                    <input asp-for="Document" class="form-control" />
-                                                                    <span asp-validation-for="Document" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="Name" class="control-label"></label>
-                                                                    <input asp-for="Name" class="form-control" />
-                                                                    <span asp-validation-for="Name" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="LastName" class="control-label"></label>
-                                                                    <input asp-for="LastName" class="form-control" />
-                                                                    <span asp-validation-for="LastName" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="Address" class="control-label"></label>
-                                                                    <input asp-for="Address" class="form-control" />
-                                                                    <span asp-validation-for="Address" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="PhoneNumber" class="control-label"></label>
-                                                                    <input asp-for="PhoneNumber" class="form-control" />
-                                                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="Password" class="control-label"></label>
-                                                                    <input asp-for="Password" class="form-control" />
-                                                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label asp-for="Password" class="control-label"></label>
-                                                                    <input asp-for="Password" class="form-control" />
-                                                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                         <div class="col-md-12 text-center my-2">
-                                         <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Regresar</a>
-                                                    <input type="submit" value="Crear Cuenta" class="btn btn-info btn-send pt-2" />
-                                    </div>
+                                                <form id="contact-form" asp-action="Login" asp-controller="Account" method="post" class="offset-1 row">
+                                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                                    <div class="form-group input-label-div">
+                                                        <label asp-for="UserName" class="control-label"></label>
+                                                        <input asp-for="UserName" class="form-control" />
+                                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group input-label-div">
+                                                        <label asp-for="Password" class="control-label"></label>
+                                                        <input asp-for="Password" class="form-control" />
+                                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group form-check input-label-div row">
+                                                        <label class="form-check-label col-7">
+                                                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12 text-center my-2">
+                                                        <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Regresar</a>
+                                                        <input type="submit" value="Iniciar Sesión" class="btn btn-info btn-send pt-2" />
                                                     </div>
                                                 </form>
                                             </div>
