@@ -1,4 +1,5 @@
 ﻿using ADAShop.Api.Repository.Order;
+using ADAShop.Shared.DTOs;
 using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +17,6 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpPost(nameof(Insert))]
-        //[ValidateAntiForgeryToken]
-        //[Authorize("User")]
         public async Task<ActionResult> Insert(Order order)
         {
             var response = await _orderRepository.CreateAsync(order);
@@ -25,7 +24,6 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpGet(nameof(GetAll))]
-        //[Authorize("Admin")]
         public async Task<ActionResult> GetAll()
         {
             var response = await _orderRepository.GetAllAsync();
@@ -33,11 +31,9 @@ namespace ADAShop.Api.Controllers
         }
 
         [HttpPost(nameof(InsertOrderItem))]
-        //[ValidateAntiForgeryToken]
-        //[Authorize("User")]
-        public async Task<ActionResult> InsertOrderItem(OrderItem orderItem)
+        public async Task<ActionResult> InsertOrderItem(OrderItemDTO orderItemDTO)
         {
-            var response = await _orderRepository.CreateOrderItemAsync(orderItem);
+            var response = await _orderRepository.CreateOrderItemAsync(orderItemDTO);
             return Ok(response);
         }
     }

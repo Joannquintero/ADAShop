@@ -1,3 +1,4 @@
+using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Models;
 using ADAShop.Web.Services.Cart;
@@ -38,6 +39,7 @@ namespace ADAShop.Web.Controllers
 
             List<Product> products = await _productService.GetAllAsync();
             var carts = identitySession != null ? await _cartService.GetByUserIdAsync(identitySession!.UserId) : new List<Cart>();
+            carts = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).ToList();
 
             string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             ViewBag.UserId = userIdClaim;

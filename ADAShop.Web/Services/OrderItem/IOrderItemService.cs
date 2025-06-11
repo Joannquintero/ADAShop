@@ -1,7 +1,9 @@
-﻿namespace ADAShop.Web.Services.OrderItem
+﻿using ADAShop.Shared.DTOs;
+
+namespace ADAShop.Web.Services.OrderItem
 {
     public interface IOrderItemService
     {
-        Task<Shared.Entities.OrderItem> CreateAsync(Shared.Entities.OrderItem orderItem);
+        Task<OrderItemDTO> CreateAsync(OrderItemDTO orderItemDTO);
     }
 }

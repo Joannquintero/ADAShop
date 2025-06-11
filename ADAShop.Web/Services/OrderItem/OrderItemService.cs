@@ -1,4 +1,5 @@
-﻿using ADAShop.Web.Repository;
+﻿using ADAShop.Shared.DTOs;
+using ADAShop.Web.Repository;
 
 namespace ADAShop.Web.Services.OrderItem
 {
@@ -11,9 +12,9 @@ namespace ADAShop.Web.Services.OrderItem
             _repository = repository;
         }
 
-        public async Task<Shared.Entities.OrderItem> CreateAsync(Shared.Entities.OrderItem orderItem)
+        public async Task<OrderItemDTO> CreateAsync(OrderItemDTO orderItemDTO)
         {
-            var responseHppt = await _repository.Post<Shared.Entities.OrderItem, Shared.Entities.OrderItem>("api/Orders/InsertOrderItem", orderItem);
+            var responseHppt = await _repository.Post<OrderItemDTO, OrderItemDTO>("api/Orders/InsertOrderItem", orderItemDTO);
             return responseHppt.Response!;
         }
     }

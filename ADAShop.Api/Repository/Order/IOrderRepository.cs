@@ -1,4 +1,6 @@
-﻿namespace ADAShop.Api.Repository.Order
+﻿using ADAShop.Shared.DTOs;
+
+namespace ADAShop.Api.Repository.Order
 {
     public interface IOrderRepository
     {
@@ -6,6 +8,6 @@
 
         Task<List<Shared.Entities.Order>> GetAllAsync();
 
-        Task<Shared.Entities.OrderItem> CreateOrderItemAsync(Shared.Entities.OrderItem orderItem);
+        Task<OrderItemDTO> CreateOrderItemAsync(OrderItemDTO orderItem);
     }
 }

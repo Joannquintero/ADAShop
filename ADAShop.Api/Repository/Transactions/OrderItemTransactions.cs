@@ -13,12 +13,15 @@ namespace ADAShop.Api.Repository.Transactions
             _genericExecuteSP = genericExecuteSP;
         }
 
-        public async Task<GenericResultDTO> Create(Shared.Entities.OrderItem orderItem)
+        public async Task<GenericResultDTO> Create(OrderItemDTO orderItemDTO)
         {
             List<ParamGeneric> paramGenerics = new() {
-                new ParamGeneric() { DataType = "bigint", Key = "@ProductId", Value = orderItem.ProductId.ToString() },
-                new ParamGeneric() { DataType = "bigint", Key = "@OrderId", Value = orderItem.OrderId.ToString() },
-                new ParamGeneric() { DataType = "string", Key = "@Quantity", Value = orderItem.Quantity.ToString()  },
+                new ParamGeneric() { DataType = "bigint", Key = "@ProductId", Value = orderItemDTO.ProductId.ToString() },
+                new ParamGeneric() { DataType = "bigint", Key = "@OrderId", Value = orderItemDTO.OrderId.ToString() },
+                new ParamGeneric() { DataType = "string", Key = "@Quantity", Value = orderItemDTO.Quantity.ToString()  },
+                new ParamGeneric() { DataType = "string", Key = "@Stock", Value = orderItemDTO.Stock.ToString()  },
+                new ParamGeneric() { DataType = "string", Key = "@CartId", Value = orderItemDTO.CartId.ToString() },
+                new ParamGeneric() { DataType = "string", Key = "@Amount", Value = orderItemDTO.Amount.ToString() },
             };
 
             GenericSPExecuteDTO genericSPExecuteDTO = new()

@@ -1,5 +1,6 @@
 ﻿using ADAShop.Api.Data;
 using ADAShop.Api.Repository.Transactions;
+using ADAShop.Shared.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace ADAShop.Api.Repository.Order
@@ -39,11 +40,10 @@ namespace ADAShop.Api.Repository.Order
         /// </summary>
         /// <param name="orderItem"></param>
         /// <returns></returns>
-        public async Task<Shared.Entities.OrderItem> CreateOrderItemAsync(Shared.Entities.OrderItem orderItem)
+        public async Task<OrderItemDTO> CreateOrderItemAsync(OrderItemDTO orderItemDTO)
         {
-            var response = await _orderItemTransactions.Create(orderItem);
-            orderItem.Id = response.Id;
-            return orderItem;
+            var response = await _orderItemTransactions.Create(orderItemDTO);
+            return orderItemDTO;
         }
     }
 }

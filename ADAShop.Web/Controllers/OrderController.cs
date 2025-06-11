@@ -1,4 +1,6 @@
-﻿using ADAShop.Shared.Entities;
+﻿using ADAShop.Shared.DTOs;
+using ADAShop.Shared.Entities;
+using ADAShop.Web.Models;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.Order;
@@ -15,14 +17,14 @@ namespace ADAShop.Web.Controllers
         private readonly ICartService _cartService;
         private readonly IAccountService _accountService;
         private readonly IOrdenService _ordenService;
-        private readonly OrderItemService _orderItemService;
+        private readonly IOrderItemService _orderItemService;
 
         public OrderController(
             IProductService productService,
             ICartService cartService,
             IAccountService accountService,
             IOrdenService ordenService,
-            OrderItemService orderItemService)
+            IOrderItemService orderItemService)
         {
             _productService = productService;
             _cartService = cartService;
@@ -31,18 +33,24 @@ namespace ADAShop.Web.Controllers
             _orderItemService = orderItemService;
         }
 
-        //TODO: [JAN] - Summary
-        public async Task<IActionResult> Checkout(int CartId, int UserId = 3)
+        public async Task<IActionResult> Checkout(int CartId)
         {
+            ClaimsIdentityModel? identitySession = null;
+            var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
+            if (claimsIdentity == null)
+            {
+                return Json("Error");
+            }
+
+            identitySession = JsonSerializer.Deserialize<ClaimsIdentityModel>(claimsIdentity)!;
+            ViewBag.ClaimsIdentityViewBag = identitySession;
+
             List<Product> products = await _productService.GetAllAsync();
             ViewData["AllProductsNames"] = products.Select(c => c.Name).ToList();
+            var cartResponse = await _cartService.GetByIdAsync(CartId);
 
-            HttpContext.Session.SetInt32("uId", UserId);
-            HttpContext.Session.SetInt32("cId", CartId);
-            var carts = await _cartService.GetByIdAsync(CartId);
-
-            List<CartItem> cartItems = carts.CartItems!;
-            User? user = await _accountService.GetAsync("johns");
+            List<CartItem> cartItems = cartResponse.CartItems!;
+            User? user = await _accountService.GetAsync(identitySession.UserName!);
             if (user != null)
             {
                 Order order = new Order()
@@ -56,68 +64,25 @@ namespace ADAShop.Web.Controllers
                 {
                     foreach (var cart in cartItems)
                     {
-                        OrderItem orderItem = new OrderItem()
+                        var product = products.Where(x => x.Id == cart.ProductId).FirstOrDefault();
+                        if (product != null)
                         {
-                            ProductId = cart.ProductId,
-                            OrderId = order.Id,
-                            Quantity = cart.Quantity,
-                            Amount = cart.Product!.Price * cart.Quantity,
-                        };
+                            OrderItemDTO orderItem = new OrderItemDTO()
+                            {
+                                ProductId = cart.ProductId,
+                                OrderId = response.Id,
+                                Stock = product!.Stock,
+                                Quantity = cart.Quantity,
+                                Amount = cart.Product!.Price * cart.Quantity,
+                                CartId = cart.Id
+                            };
 
-                        var responseOrderItem = await _orderItemService.CreateAsync(orderItem);
+                            var responseOrderItem = await _orderItemService.CreateAsync(orderItem);
+                        }
                     }
-                    var serializedRecords = JsonSerializer.Serialize(order);
-                    HttpContext.Session.SetString("order", serializedRecords);
-
-                    //Shipment shipment = new Shipment() { Date = DateTime.Now.AddDays(3) };
-
-                    //    List<Cart>? carts = _cartService.GetAll();
-
-                    //    if (carts.Count == 0)
-                    //    {
-                    //        Cart cart = new Cart() { CartItems = new List<CartItem>() };
-
-                    //        CheckoutViewModel checkoutVM = new CheckoutViewModel() { };
-
-                    //        checkoutVM.Date = shipment.Date;
-                    //        checkoutVM.Categories = categoryService.GetAll();
-                    //        checkoutVM.Cart = cart;
-
-                    //        decimal total = 0;
-                    //        foreach (OrderItem item in order.OrderItems)
-                    //        {
-                    //            item.Product = productService.Get(item.ProductId);
-                    //            total += item.Product.Price * item.Quantity;
-                    //        }
-                    //        ViewBag.order = order;
-                    //        ViewBag.total = total;
-
-                    //        return View(checkoutVM);
-                    //    }
-                    //    else
-                    //    {
-                    //        CheckoutViewModel checkoutVM = new CheckoutViewModel() { };
-
-                    //        checkoutVM.Date = shipment.Date;
-                    //        checkoutVM.Categories = categoryService.GetAll();
-                    //        checkoutVM.Cart = _cartService.GetAll("CartItems").FirstOrDefault();
-
-                    //        decimal total = 0;
-                    //        foreach (OrderItem item in order.OrderItems)
-                    //        {
-                    //            item.Product = productService.Get(item.ProductId);
-                    //            total += item.Product.Price * item.Quantity;
-                    //        }
-                    //        ViewBag.order = order;
-                    //        ViewBag.total = total;
-
-                    //        return View(checkoutVM);
-                    //    }
-                    //}
                 }
-                return Json("Error");
             }
-            return Json("Error");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
