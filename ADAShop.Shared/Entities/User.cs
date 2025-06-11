@@ -6,7 +6,7 @@ namespace ADAShop.Shared.Entities
     public class User : IdentityUser<long>
     {
         [MaxLength(20)]
-        public string? Identification { get; set; }
+        public string? Document { get; set; }
 
         [MaxLength(50)]
         [Required]
@@ -18,7 +18,7 @@ namespace ADAShop.Shared.Entities
 
         [MaxLength(200)]
         [Required]
-        public string Address { get; set; } = null!;
+        public string? Address { get; set; }
 
         public string FullName => $"{Name} {LastName}";
     }

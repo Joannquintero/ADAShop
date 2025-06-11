@@ -89,7 +89,7 @@ namespace ADAShop.Web.Controllers
                 UserDTO User = new UserDTO
                 {
                     UserName = model.UserName,
-                    Identification = model.Document,
+                    Document = model.Document,
                     Name = model.Name,
                     LastName = model.LastName,
                     Address = model.Address,

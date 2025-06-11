@@ -197,6 +197,11 @@
                     </div>
                 </div>
                 <!-- /LOGO -->
+                 <!-- SEARCH BAR -->
+                    <div class="col-md-6">
+                        <div class="header-search"></div>
+                    </div>
+                    <!-- /SEARCH BAR -->
                 <!-- ACCOUNT -->
                 <div class="col-md-3 clearfix">
                     <div class="header-ctn">
@@ -214,7 +219,8 @@
                                     {
                                         <div class="product-widget">
                                             <div class="product-img">
-                                                <img src="~/img/@item?.Product?.Image" alt="@item?.Product?.Name" width="200" />
+                                                @* <img src="~/img/@item?.Product?.Image" alt="@item?.Product?.Name" width="200" /> *@
+                                                <img src="/images/not_available.png" alt="@item?.Product?.Name" width="200" />
                                             </div>
                                             <div class="product-body">
                                                 <h3 class="product-name"><a asp-action="Details" asp-controller="Product" asp-route-id="@item?.Product?.Id">@item?.Product?.Name</a></h3>
@@ -315,7 +321,6 @@
                 <th>Nombre del producto</th>
                 <th></th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -326,8 +331,8 @@
                     <td class="vertical-align-middle">@String.Format("{0:C}", item.Product!.Price)</td>
                     <td class="vertical-align-middle">@String.Format("{0:C}", item.Product.Price * item.Quantity)</td>
                     <td class="vertical-align-middle">@item.Product.Name</td>
-                    <td class="vertical-align-middle"><img src="~/img/@item.Product.Image" alt="@item.Product.Name" width="100" /></td>
-                    <td class="vertical-align-middle"><a class="btn btn-info" asp-action="Update" asp-controller="CartItem" asp-route-id="@item.Id">Editar</a></td>
+                    @* <td class="vertical-align-middle"><img src="~/img/@item.Product.Image" alt="@item.Product.Name" width="100" /></td> *@
+                    <td class="vertical-align-middle"><img src="~/images/not_available.png" alt="@item.Product.Name" width="100" /></td>
                     <td class="vertical-align-middle">
                         <div class="text-center">
                             <a href="#myModal-@item.Id" class="trigger-btn btn btn-danger" data-toggle="modal">Quitar</a>
