@@ -1,11 +1,13 @@
 ﻿using ADAShop.Api.Repository.Product;
 using ADAShop.Shared.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/[controller]")]
     public class ProductsController : ControllerBase
     {

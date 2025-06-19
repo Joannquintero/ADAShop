@@ -1,6 +1,7 @@
 ﻿using ADAShop.Shared.Entities;
 using ADAShop.Web.Services.Order;
 using ADAShop.Web.Services.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Web.Controllers
@@ -16,12 +17,16 @@ namespace ADAShop.Web.Controllers
             _productService = productService;
         }
 
+        [HttpGet]
+        //[Authorize("Admin")]
         public async Task<IActionResult> Orders()
         {
             var orders = await _ordenService.GetAllAsync();
             return View(orders);
         }
 
+        [HttpGet]
+        [Authorize("Admin")]
         public async Task<IActionResult> Products()
         {
             List<Product> products = await _productService.GetAllAsync();

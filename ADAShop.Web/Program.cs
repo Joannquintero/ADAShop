@@ -1,4 +1,3 @@
-using ADAShop.Api.Data;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Data;
 using ADAShop.Web.Repository;
@@ -60,6 +59,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

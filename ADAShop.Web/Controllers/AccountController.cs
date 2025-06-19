@@ -56,7 +56,7 @@ namespace ADAShop.Web.Controllers
                                 new Claim("UserName", $"{model.UserName}", ClaimValueTypes.String),
                                 new Claim("UserId", $"{user.Id}", ClaimValueTypes.Integer64),
                                 new Claim("Token", $"{loginResponse.Token}", ClaimValueTypes.String),
-                                new Claim("FullName", $"{user.Name} {user.LastName}", ClaimValueTypes.String),
+                                new Claim("FullName", $"{user.Name} {user.LastName}", ClaimValueTypes.String)
                         };
                         await signInManager.SignInWithClaimsAsync(user, model.RememberMe, claimsIdentity);
 

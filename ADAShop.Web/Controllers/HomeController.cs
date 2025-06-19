@@ -4,6 +4,7 @@ using ADAShop.Web.Models;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.Product;
 using ADAShop.Web.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -27,6 +28,7 @@ namespace ADAShop.Web.Controllers
             _cartService = cartService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
