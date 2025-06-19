@@ -1,11 +1,14 @@
 ﻿using ADAShop.Api.Repository.Order;
 using ADAShop.Shared.DTOs;
 using ADAShop.Shared.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/[controller]")]
     public class OrdersController : ControllerBase
     {
@@ -26,6 +29,7 @@ namespace ADAShop.Api.Controllers
         [HttpGet(nameof(GetAll))]
         public async Task<ActionResult> GetAll()
         {
+            string userName = User.Identity!.Name!;
             var response = await _orderRepository.GetAllAsync();
             return Ok(response);
         }
