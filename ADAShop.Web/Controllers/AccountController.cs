@@ -4,6 +4,7 @@ using ADAShop.Shared.Entities;
 using ADAShop.Web.Models;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.ViewModels.Account;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
@@ -13,10 +14,12 @@ namespace ADAShop.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly SignInManager<User> signInManager;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, SignInManager<User> _signInManager)
         {
             _accountService = accountService;
+            signInManager = _signInManager;
         }
 
         [HttpGet]
@@ -48,14 +51,24 @@ namespace ADAShop.Web.Controllers
                     User user = await _accountService.GetAsync(model.UserName);
                     if (user != null)
                     {
-                        ClaimsIdentity identity = new ClaimsIdentity(new List<Claim>
-                            {
+                        List<Claim> claimsIdentity = new List<Claim>()
+                        {
                                 new Claim("UserName", $"{model.UserName}", ClaimValueTypes.String),
                                 new Claim("UserId", $"{user.Id}", ClaimValueTypes.Integer64),
-                                new Claim("Token", $"{loginResponse.Token}", ClaimValueTypes.String)
-                            }, "UserIdentity");
+                                new Claim("Token", $"{loginResponse.Token}", ClaimValueTypes.String),
+                                new Claim("FullName", $"{user.Name} {user.LastName}", ClaimValueTypes.String),
+                        };
+                        await signInManager.SignInWithClaimsAsync(user, model.RememberMe, claimsIdentity);
 
-                        HttpContext.User = new ClaimsPrincipal(identity);
+                        //ClaimsIdentity claims = new ClaimsIdentity(new List<Claim>
+                        //    {
+                        //        new Claim("UserName", $"{model.UserName}", ClaimValueTypes.String),
+                        //        new Claim("UserId", $"{user.Id}", ClaimValueTypes.Integer64),
+                        //        new Claim("Token", $"{loginResponse.Token}", ClaimValueTypes.String)
+                        //    }, "UserIdentity");
+
+                        //HttpContext.User = new ClaimsPrincipal(claims);
+
                         ClaimsIdentityModel sessionDataModel = new ClaimsIdentityModel
                         {
                             UserId = user.Id,
@@ -88,9 +101,10 @@ namespace ADAShop.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Logout()
+        public async Task<IActionResult> LogoutAsync()
         {
             HttpContext.Session.Remove("ClaimsIdentityModel");
+            await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 

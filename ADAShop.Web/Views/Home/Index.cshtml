@@ -84,9 +84,9 @@
         <div id="top-header">
             <div class="container">
                 <ul class="header-links pull-right">
-                    @if (claimsIdentity != null)
+                    @if (User.Identity!.IsAuthenticated)
                     {
-                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-user-o"></i> @claimsIdentity.FullName</a></li>
+                        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-user-o"></i> @User.Identity.Name</a></li>
                         <li><a href="@Url.Action("Logout", "Account")"><i class="fas fa-door-open"></i> Salir</a></li>
                     }
                     else
