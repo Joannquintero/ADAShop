@@ -1,6 +1,5 @@
 ﻿using ADAShop.Api.Helpers;
 using ADAShop.Shared.DTOs;
-using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -82,14 +81,14 @@ namespace ADAShop.Api.Controllers
 
         private async Task<TokenDTO> BuildToken(User user)
         {
-            var isUser = await _userHelper.IsUserInRoleAsync(user, UserTypeEnum.Admin.ToString());
+            var role = await _userHelper.GetRolesUserAsync(user);
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email!),
-                new Claim(ClaimTypes.Role, isUser ? UserTypeEnum.User.ToString() : UserTypeEnum.Admin.ToString()),
+                new Claim(ClaimTypes.Role, role.FirstOrDefault()!),
                 new Claim("Name", user.Name),
                 new Claim("LastName", user.LastName),
-                new Claim("Address", user.Address),
+                new Claim("Address", user.Address!),
                 new Claim("FullName", user.FullName)
             };
 

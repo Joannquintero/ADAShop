@@ -26,6 +26,11 @@ namespace ADAShop.Api.Helpers
             return await _userManager.CreateAsync(user, password);
         }
 
+        public async Task<IList<string>> GetRolesUserAsync(User user)
+        {
+            return await _userManager.GetRolesAsync(user)!;
+        }
+
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
             await _userManager.AddToRoleAsync(user, roleName);

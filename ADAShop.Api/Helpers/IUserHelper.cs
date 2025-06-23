@@ -29,5 +29,7 @@ namespace ADAShop.Api.Helpers
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        Task<IList<string>> GetRolesUserAsync(User user);
     }
 }
