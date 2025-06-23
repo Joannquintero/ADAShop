@@ -59,6 +59,15 @@ namespace ADAShop.Web.Controllers
                                 new Claim("FullName", $"{user.Name} {user.LastName}", ClaimValueTypes.String)
                         };
                         await signInManager.SignInWithClaimsAsync(user, model.RememberMe, claimsIdentity);
+                        string userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+                        string roleIdClaim = User.FindFirstValue(ClaimTypes.Role)!;
+
+                        //var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+                        //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                        //identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName!));
+                        //identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                        //await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                        //    new ClaimsPrincipal(identity));
 
                         //ClaimsIdentity claims = new ClaimsIdentity(new List<Claim>
                         //    {
@@ -101,7 +110,7 @@ namespace ADAShop.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> LogoutAsync()
+        public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Remove("ClaimsIdentityModel");
             await signInManager.SignOutAsync();

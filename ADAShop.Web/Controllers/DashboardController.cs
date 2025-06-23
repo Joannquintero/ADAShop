@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         private readonly IOrdenService _ordenService;
@@ -17,16 +18,14 @@ namespace ADAShop.Web.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        //[Authorize("Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Orders()
         {
             var orders = await _ordenService.GetAllAsync();
             return View(orders);
         }
 
-        [HttpGet]
-        [Authorize("Admin")]
+        //[Authorize("User")]
         public async Task<IActionResult> Products()
         {
             List<Product> products = await _productService.GetAllAsync();

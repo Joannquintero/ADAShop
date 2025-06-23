@@ -46,6 +46,14 @@ builder.Services.AddIdentity<User, IdentityRole<long>>(
     }
     ).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
+// Redireccionar al login si Authorize no esta permitido
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.LogoutPath = "/Logout";
+    options.AccessDeniedPath = "/Account/Login";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,6 +64,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
 
