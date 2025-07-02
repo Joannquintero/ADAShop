@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 
 namespace ADAShop.Web.Repository
@@ -17,6 +18,7 @@ namespace ADAShop.Web.Repository
         public Repository(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _httpClient.DefaultRequestHeaders.Add("x-version", "1.0");
             _configuration = configuration;
             _urlBase = _configuration["BaseAddress"]!;
         }
