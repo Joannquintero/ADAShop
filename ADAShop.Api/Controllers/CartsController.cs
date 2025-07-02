@@ -15,8 +15,10 @@ namespace ADAShop.Api.Controllers
             _cartRepository = cartRepository;
         }
 
+        [HttpGet(nameof(GetAll))]
         public async Task<ActionResult> GetAll()
         {
+            // ⚠️ throw new Exception("¡Algo salió mal!")
             var response = await _cartRepository.GetAllAsync();
             return Ok(response);
         }
