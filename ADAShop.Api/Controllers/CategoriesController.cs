@@ -1,10 +1,13 @@
 ﻿using ADAShop.Api.Repository.Category;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers
 {
     [ApiController]
+    //[Route("api/v{version:apiVersion}/[controller]")]
     [Route("/api/[controller]")]
+    [ApiVersion("1.0")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;

@@ -1,6 +1,7 @@
 using ADAShop.Api.Data;
 using ADAShop.Api.Helpers;
 using ADAShop.Api.Helpers.GenericExecuteSP;
+using ADAShop.Api.Modules.Versioning;
 using ADAShop.Api.Repository.Cart;
 using ADAShop.Api.Repository.Category;
 using ADAShop.Api.Repository.Order;
@@ -111,6 +112,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 #endregion Activar Swagger con autenticacion del tipo Bearer
+
+builder.Services.AddVersioning();
+
+//TODO: se genera excepcion en el metodo 'SwaggerDoc' de la clase ConfigureSwaggerOptions
+//builder.Services.AddSwagger();
 
 var app = builder.Build();
 SeedData(app);
