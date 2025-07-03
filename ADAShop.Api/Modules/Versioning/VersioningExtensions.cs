@@ -11,6 +11,11 @@ namespace ADAShop.Api.Modules.Versioning
                 o.DefaultApiVersion = new ApiVersion(1, 0);
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.ReportApiVersions = true;
+                //o.ApiVersionReader = ApiVersionReader.Combine(
+                //   new QueryStringApiVersionReader("api-version"),
+                //   new HeaderApiVersionReader("x-version"),
+                //   new MediaTypeApiVersionReader("version")
+                //);
                 // Tipos de configuracion para versionamiento
                 //o.ApiVersionReader = new UrlSegmentApiVersionReader(); // Para tomarlo directamente desde la url '[Route("api/v{version:apiVersion}/[controller]")]'
                 o.ApiVersionReader = new HeaderApiVersionReader("x-version"); // Para tomarlo desde la cabecera del request

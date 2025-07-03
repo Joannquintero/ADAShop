@@ -8,6 +8,7 @@ using ADAShop.Web.Services.Category;
 using ADAShop.Web.Services.Order;
 using ADAShop.Web.Services.OrderItem;
 using ADAShop.Web.Services.Product;
+using Asp.Versioning.Routing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,6 +53,12 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Login";
     options.LogoutPath = "/Logout";
     options.AccessDeniedPath = "/Account/Login";
+});
+
+// Connfiguracion para el versionamiento de api para resolver restrinccion de enrutamiento
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.ConstraintMap.Add("apiVersion", typeof(ApiVersionRouteConstraint));
 });
 
 var app = builder.Build();

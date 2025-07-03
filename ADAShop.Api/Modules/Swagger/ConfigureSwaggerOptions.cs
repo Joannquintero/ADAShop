@@ -25,25 +25,26 @@ namespace ADAShop.Api.Modules.Swagger
 
         private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
         {
+            // Personalizar swagger 💻
             var info = new OpenApiInfo
             {
                 Version = description.ApiVersion.ToString(),
-                Title = "Net Core Web Api Versioning",
-                Description = "Example on how to versioning a Web Api in Net Core",
+                Title = "Mi Backend",
+                Description = "Versionamiento API .Net Core.",
                 Contact = new OpenApiContact
                 {
-                    Name = "Edson Martinez",
-                    Email = "emz19.com@gmail.com",
-                    Url = new Uri("https://www.linkedin.com/in/edsonmz/")
+                    Name = "Joann Quintero",
+                    Email = "joann@example.com",
+                    Url = new Uri("https://www.linkedin.com/in/joannquintero/")
                 },
                 License = new OpenApiLicense
                 {
-                    Name = "Use under LICX"
+                    Name = "Licencia de Uso bajo LICX"
                 }
             };
             if (description.IsDeprecated)
             {
-                info.Description += "This API version has been deprecated.";
+                info.Description += "Esta versión de API ha quedado obsoleta.";
             }
             return info;
         }

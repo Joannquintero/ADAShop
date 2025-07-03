@@ -1,5 +1,6 @@
 ﻿using ADAShop.Api.Repository.Product;
 using ADAShop.Shared.Entities;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,8 @@ namespace ADAShop.Api.Controllers
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("/api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;

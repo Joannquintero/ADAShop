@@ -18,7 +18,7 @@ namespace ADAShop.Web.Repository
         public Repository(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _httpClient.DefaultRequestHeaders.Add("x-version", "1.0");
+            //_httpClient.DefaultRequestHeaders.Add("x-version", "1.0");
             _configuration = configuration;
             _urlBase = _configuration["BaseAddress"]!;
         }

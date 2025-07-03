@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ADAShop.Api.Controllers.v2
 {
-    [ApiController]
+    [ApiController] 
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
-    [Route("/api/[controller]")]
     public class ProductosController : ControllerBase
     {
         [HttpGet]

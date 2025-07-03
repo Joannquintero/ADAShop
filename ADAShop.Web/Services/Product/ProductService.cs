@@ -6,6 +6,7 @@ namespace ADAShop.Web.Services.Product
     public class ProductService : IProductService
     {
         private readonly IRepository _repository;
+        private readonly string _version = "v1";
 
         public ProductService(IRepository repository)
         {
@@ -14,19 +15,19 @@ namespace ADAShop.Web.Services.Product
 
         public async Task<List<Shared.Entities.Product>> GetAllAsync()
         {
-            var responseHppt = await _repository.Get<List<Shared.Entities.Product>>($"api/Products/GetAll");
+            var responseHppt = await _repository.Get<List<Shared.Entities.Product>>($"api/{_version}/Products/GetAll");
             return responseHppt.Response!;
         }
 
         public async Task<Shared.Entities.Product> GetByIdAsync(int id)
         {
-            var responseHppt = await _repository.Get<Shared.Entities.Product>($"api/Products/GetById?id={id}");
+            var responseHppt = await _repository.Get<Shared.Entities.Product>($"api/{_version}/Products/{_version}/GetById?id={id}");
             return responseHppt.Response!;
         }
 
         public async Task<ProductWithListOfCatesVM> GetViewModel(int id)
         {
-            var response = await _repository.Get<Shared.Entities.Product>($"api/Products/GetById?id={id}");
+            var response = await _repository.Get<Shared.Entities.Product>($"api/{_version}/Products/{_version}/GetById?id={id}");
             ProductWithListOfCatesVM model = new()
             {
                 Id = response.Response!.Id,
@@ -38,20 +39,20 @@ namespace ADAShop.Web.Services.Product
                 CategoryId = response.Response.Category != null ? response.Response.Category!.Id : 0
             };
 
-            var responseCategories = await _repository.Get<List<Shared.Entities.Category>>($"api/Categories/GetAll");
+            var responseCategories = await _repository.Get<List<Shared.Entities.Category>>($"api/{_version}/Categories/GetAll");
             model.categories = responseCategories.Response;
             return model;
         }
 
         public async Task<Shared.Entities.Product> CreateAsync(Shared.Entities.Product product)
         {
-            var responseHppt = await _repository.Post<Shared.Entities.Product, Shared.Entities.Product>("api/Products/Insert", product);
+            var responseHppt = await _repository.Post<Shared.Entities.Product, Shared.Entities.Product>($"api/{_version}/Products/Insert", product);
             return responseHppt.Response!;
         }
 
         public async Task<Shared.Entities.Product> UpdateAsync(Shared.Entities.Product product)
         {
-            var responseHppt = await _repository.Post<Shared.Entities.Product, Shared.Entities.Product>("api/Products/Update", product);
+            var responseHppt = await _repository.Post<Shared.Entities.Product, Shared.Entities.Product>($"api/{_version}//Products/Update", product);
             return responseHppt.Response!;
         }
     }
