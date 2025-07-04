@@ -5,6 +5,7 @@ using ADAShop.Web.Services;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.Product;
 using ADAShop.Web.ViewModels.Home;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -15,17 +16,20 @@ namespace ADAShop.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SignInManager<User> _signInManager;
         private readonly IProductService _productService;
         private readonly ITokenService _tokenService;
         private readonly ICartService _cartService;
 
         public HomeController(
             ILogger<HomeController> logger,
+            SignInManager<User> signInManager,
             IProductService productService,
             ITokenService tokenService,
             ICartService cartService)
         {
             _logger = logger;
+            _signInManager = signInManager;
             _productService = productService;
             _tokenService = tokenService;
             _cartService = cartService;
@@ -35,8 +39,11 @@ namespace ADAShop.Web.Controllers
         public async Task<IActionResult> Index()
         {
             // Recuperar el token del cookie
-            Request.Cookies.TryGetValue("jwt_token", out string? token);
-            _tokenService.Token = token!;
+            _tokenService.Token = _tokenService.GetTokenCookies(Request)!;
+            if (string.IsNullOrEmpty(_tokenService.Token))
+            {
+                await _signInManager.SignOutAsync();
+            }
 
             var claimsIdentity = HttpContext.Session.Get("ClaimsIdentityModel");
             ClaimsIdentityModel? identitySession = null;

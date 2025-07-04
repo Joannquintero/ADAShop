@@ -20,7 +20,10 @@ namespace ADAShop.Web.Controllers
         private readonly ITokenService _tokenService;
         private readonly HttpClient _httpClient;
 
-        public AccountController(IAccountService accountService, SignInManager<User> _signInManager, ITokenService tokenService, IHttpClientFactory httpClientFactory)
+        public AccountController(IAccountService accountService,
+            SignInManager<User> _signInManager,
+            ITokenService tokenService,
+            IHttpClientFactory httpClientFactory)
         {
             _accountService = accountService;
             signInManager = _signInManager;
@@ -95,14 +98,10 @@ namespace ADAShop.Web.Controllers
 
                         _tokenService.Token = loginResponse.Token;
 
-                        Response.Cookies.Append("jwt_token", loginResponse.Token, new CookieOptions
-                        {
-                            HttpOnly = true, // 🔒 Bloquea acceso desde JS
-                            Secure = true, // // 🔒 Solo se envía por HTTPS
-                            SameSite = SameSiteMode.Strict, // // 🔒 Previene CSRF en la mayoría de los casos
-                            Expires = DateTimeOffset.UtcNow.AddHours(1)
-                        });
+                        // Agregamos el token a las cookies
+                        _tokenService.AddTokenCookies(Response, loginResponse.Token);
 
+                        // Crear una session para almacenar datos
                         var serializedRecords = JsonSerializer.Serialize(sessionDataModel);
                         HttpContext.Session.SetString("ClaimsIdentityModel", serializedRecords);
 
