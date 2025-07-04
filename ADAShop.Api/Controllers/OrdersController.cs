@@ -10,6 +10,8 @@ namespace ADAShop.Api.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/[controller]")]
+    //[Route("api/v{version:apiVersion}/[controller]")]
+    //[ApiVersion("1.0")]
     public class OrdersController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;

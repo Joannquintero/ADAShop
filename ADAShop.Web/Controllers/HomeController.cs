@@ -53,6 +53,13 @@ namespace ADAShop.Web.Controllers
                 ViewBag.ClaimsIdentityViewBag = identitySession;
             }
 
+            // Obtener el valor de un claim
+            var roleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (!string.IsNullOrEmpty(roleClaim) && roleClaim == UserTypeEnum.Admin.ToString())
+            {
+                return RedirectToAction("Orders", "Dashboard");
+            }
+
             List<Product> products = await _productService.GetAllAsync();
             var carts = identitySession != null ? await _cartService.GetByUserIdAsync(identitySession!.UserId) : new List<Cart>();
             carts = carts.Where(x => x.Status == ShoppingCartStatusEnum.NEW.ToString()).ToList();
