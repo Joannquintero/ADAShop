@@ -2,6 +2,7 @@
 using ADAShop.Shared.Emuns;
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Models;
+using ADAShop.Web.Services;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
@@ -16,10 +17,16 @@ namespace ADAShop.Web.Controllers
         private readonly IAccountService _accountService;
         private readonly SignInManager<User> signInManager;
 
-        public AccountController(IAccountService accountService, SignInManager<User> _signInManager)
+        private readonly ITokenService _tokenService;
+        private readonly HttpClient _httpClient;
+
+        public AccountController(IAccountService accountService, SignInManager<User> _signInManager, ITokenService tokenService, IHttpClientFactory httpClientFactory)
         {
             _accountService = accountService;
             signInManager = _signInManager;
+
+            _tokenService = tokenService;
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
         [HttpGet]
@@ -85,6 +92,16 @@ namespace ADAShop.Web.Controllers
                             FullName = $"{user.Name} {user.LastName}",
                             Token = loginResponse.Token
                         };
+
+                        _tokenService.Token = loginResponse.Token;
+
+                        Response.Cookies.Append("jwt_token", loginResponse.Token, new CookieOptions
+                        {
+                            HttpOnly = true, // 🔒 Bloquea acceso desde JS
+                            Secure = true, // // 🔒 Solo se envía por HTTPS
+                            SameSite = SameSiteMode.Strict, // // 🔒 Previene CSRF en la mayoría de los casos
+                            Expires = DateTimeOffset.UtcNow.AddHours(1)
+                        });
 
                         var serializedRecords = JsonSerializer.Serialize(sessionDataModel);
                         HttpContext.Session.SetString("ClaimsIdentityModel", serializedRecords);

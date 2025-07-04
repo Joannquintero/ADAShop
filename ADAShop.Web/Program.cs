@@ -1,6 +1,8 @@
 using ADAShop.Shared.Entities;
 using ADAShop.Web.Data;
+using ADAShop.Web.Helpers;
 using ADAShop.Web.Repository;
+using ADAShop.Web.Services;
 using ADAShop.Web.Services.Account;
 using ADAShop.Web.Services.Cart;
 using ADAShop.Web.Services.CartItem;
@@ -33,6 +35,19 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOrdenService, OrdenService>();
 builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+
+#region Agregar token a las peticiones HttpClient
+
+builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddTransient<JwtAuthorizationHandler>();
+
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5238");
+})
+.AddHttpMessageHandler<JwtAuthorizationHandler>();
+
+#endregion Agregar token a las peticiones HttpClient
 
 //register the identityuser
 builder.Services.AddIdentity<User, IdentityRole<long>>(
