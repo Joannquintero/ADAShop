@@ -12,11 +12,13 @@ using ADAShop.Api.Repository.Transactions;
 using ADAShop.Shared.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -115,8 +117,21 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddVersioning();
 
-//TODO: se genera excepcion en el metodo 'SwaggerDoc' de la clase ConfigureSwaggerOptions
+// Personalizar el swagger
 builder.Services.AddSwagger();
+
+// limitar el numero de peticiones por segundo
+builder.Services.AddRateLimiter(options =>
+{
+       options.AddFixedWindowLimiter("fixed", options =>
+    {
+        options.Window = TimeSpan.FromSeconds(10);
+        options.PermitLimit = 5;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 2;
+    });
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+}); 
 
 var app = builder.Build();
 SeedData(app);
@@ -154,5 +169,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.UseRateLimiter();
+
+app.MapControllers().RequireRateLimiting("fixed"); // Nombre de la politica definida en AddRateLimiter
 app.Run();
